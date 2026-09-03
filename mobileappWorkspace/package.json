@@ -5,6 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
+    "adb-reverse": "adb reverse tcp:8081 tcp:8081",
+    "dev": "npm run adb-reverse && expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "typecheck": "tsc --noEmit",
