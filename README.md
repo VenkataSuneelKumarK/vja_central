@@ -48,3 +48,4 @@ notifications, dashboard, RBAC/audit logging, and configurable branding.
 See [`docs/TESTING.md`](docs/TESTING.md) for verification status and
 [`docs/STORE_RELEASE.md`](docs/STORE_RELEASE.md) for what's still needed
 before Phases 7–8 (production infra, store submission).
+# vja_central
