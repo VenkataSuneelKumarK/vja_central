@@ -1,0 +1,30 @@
+{
+  "tabs": { "home": "Home", "activities": "Activities", "events": "Events", "gallery": "Gallery", "more": "More" },
+  "home": {
+    "title": "VJA Central",
+    "latestActivity": "Latest Activity",
+    "upcomingEvents": "Upcoming Events",
+    "latestNews": "Latest News",
+    "gallery": "Photo Gallery",
+    "videos": "Videos",
+    "announcements": "Announcements",
+    "seeAll": "See all"
+  },
+  "activities": { "title": "Activities", "empty": "No activities yet", "filterByCategory": "Category" },
+  "events": { "title": "Events", "upcoming": "Upcoming", "today": "Today", "past": "Past", "empty": "No events found", "openInMaps": "Open in Maps", "registration": "Registration" },
+  "news": { "title": "News", "empty": "No news yet" },
+  "gallery": { "albums": "Albums", "videos": "Videos", "emptyAlbums": "No albums yet", "emptyVideos": "No videos yet" },
+  "announcements": { "title": "Announcements", "empty": "No announcements", "urgent": "Urgent", "important": "Important" },
+  "search": { "title": "Search", "placeholder": "Search activities, events, news…", "noResults": "No results found", "filters": "Filters" },
+  "more": { "title": "More", "news": "News", "announcements": "Announcements", "search": "Search", "settings": "Settings", "about": "About", "privacy": "Privacy Policy", "terms": "Terms of Use", "contact": "Contact / Information" },
+  "settings": { "title": "Settings", "language": "Language", "notifications": "Push Notifications", "about": "About" },
+  "common": {
+    "retry": "Retry",
+    "loading": "Loading…",
+    "offline": "You're offline. Showing saved content.",
+    "errorGeneric": "We couldn't load this right now. Please try again.",
+    "share": "Share",
+    "noDate": "No date"
+  },
+  "onboarding": { "chooseLanguage": "Choose your language", "continue": "Continue" }
+}
