@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import { api, apiErrorMessage } from "@/api/client";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { applyBrandColor } from "@/utils/theme";
+import { useTheme, DashboardStyle } from "@/context/ThemeContext";
 
 interface AppSettings {
   logoUrl?: string;
@@ -11,6 +13,7 @@ interface AppSettings {
   splashImageUrl?: string;
   primaryColor: string;
   secondaryColor: string;
+  dashboardStyle: DashboardStyle;
   contactPhone?: string;
   contactEmail?: string;
   contactAddress?: string;
@@ -18,14 +21,20 @@ interface AppSettings {
   termsUrl?: string;
 }
 
+const DASHBOARD_STYLE_OPTIONS: Array<{ value: DashboardStyle; label: string; description: string }> = [
+  { value: "classic", label: "Classic", description: "Plain stat cards, neutral sign-out button." },
+  { value: "accent", label: "Neutral accent", description: "Icon chips on stat cards + an accent-colored sign-out button." },
+];
+
 export function SettingsPage() {
   const qc = useQueryClient();
+  const { previewDashboardStyle } = useTheme();
   const { data } = useQuery({
     queryKey: ["app-settings"],
     queryFn: async () => (await api.get<{ data: AppSettings }>("/admin/settings")).data.data,
   });
 
-  const [form, setForm] = useState<AppSettings>({ primaryColor: "#2563EB", secondaryColor: "#1E3A8A" });
+  const [form, setForm] = useState<AppSettings>({ primaryColor: "#2563EB", secondaryColor: "#1E3A8A", dashboardStyle: "classic" });
 
   useEffect(() => {
     if (data) setForm(data);
@@ -70,9 +79,25 @@ export function SettingsPage() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1 block text-sm font-medium text-slate-700">Primary Color</label>
+              <p className="mb-1 text-xs text-slate-400">Recolors this admin portal live as you pick — Save to make it permanent.</p>
               <div className="flex items-center gap-2">
-                <input type="color" value={form.primaryColor} onChange={(e) => setForm({ ...form, primaryColor: e.target.value })} className="h-9 w-9 rounded border border-slate-300" />
-                <input value={form.primaryColor} onChange={(e) => setForm({ ...form, primaryColor: e.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+                <input
+                  type="color"
+                  value={form.primaryColor}
+                  onChange={(e) => {
+                    setForm({ ...form, primaryColor: e.target.value });
+                    applyBrandColor(e.target.value);
+                  }}
+                  className="h-9 w-9 rounded border border-slate-300"
+                />
+                <input
+                  value={form.primaryColor}
+                  onChange={(e) => {
+                    setForm({ ...form, primaryColor: e.target.value });
+                    if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) applyBrandColor(e.target.value);
+                  }}
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                />
               </div>
             </div>
             <div>
@@ -81,6 +106,31 @@ export function SettingsPage() {
                 <input type="color" value={form.secondaryColor} onChange={(e) => setForm({ ...form, secondaryColor: e.target.value })} className="h-9 w-9 rounded border border-slate-300" />
                 <input value={form.secondaryColor} onChange={(e) => setForm({ ...form, secondaryColor: e.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
               </div>
+            </div>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium text-slate-700">Dashboard Style</label>
+            <p className="mb-2 text-xs text-slate-400">Switches live in this portal as you pick — Save to make it permanent.</p>
+            <div className="flex gap-3">
+              {DASHBOARD_STYLE_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => {
+                    setForm({ ...form, dashboardStyle: opt.value });
+                    previewDashboardStyle(opt.value);
+                  }}
+                  className={`flex-1 rounded-lg border px-4 py-3 text-left text-sm transition-colors ${
+                    form.dashboardStyle === opt.value
+                      ? "border-brand-500 bg-brand-50 text-brand-700"
+                      : "border-slate-300 text-slate-700 hover:bg-slate-50"
+                  }`}
+                >
+                  <span className="block font-medium">{opt.label}</span>
+                  <span className="mt-0.5 block text-xs text-slate-400">{opt.description}</span>
+                </button>
+              ))}
             </div>
           </div>
 

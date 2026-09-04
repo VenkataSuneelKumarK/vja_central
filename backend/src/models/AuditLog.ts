@@ -6,7 +6,9 @@ export interface IAuditLog extends Document {
   actorEmail: string;
   action: string; // e.g. "create" | "update" | "delete" | "publish" | "unpublish" | "archive" | "login"
   entityType: string;
-  entityId?: Types.ObjectId;
+  // Usually a document ObjectId, but singleton entities (e.g. app_settings)
+  // use a fixed string id — so this isn't always castable to ObjectId.
+  entityId?: Types.ObjectId | string;
   before?: unknown;
   after?: unknown;
   ip?: string;
@@ -19,7 +21,7 @@ const auditLogSchema = new Schema<IAuditLog>(
     actorEmail: { type: String, required: true },
     action: { type: String, required: true },
     entityType: { type: String, required: true, index: true },
-    entityId: { type: Schema.Types.ObjectId },
+    entityId: { type: Schema.Types.Mixed },
     before: { type: Schema.Types.Mixed },
     after: { type: Schema.Types.Mixed },
     ip: { type: String },

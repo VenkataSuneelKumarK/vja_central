@@ -23,6 +23,7 @@ const updateSettingsSchema = z.object({
     splashImageUrl: z.string().url().optional(),
     primaryColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/).optional(),
     secondaryColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/).optional(),
+    dashboardStyle: z.enum(["classic", "accent"]).optional(),
     contactPhone: z.string().optional(),
     contactEmail: z.string().email().optional().or(z.literal("")),
     contactAddress: z.string().optional(),
