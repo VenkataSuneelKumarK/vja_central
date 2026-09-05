@@ -10,6 +10,7 @@ export interface IAppSettings extends Document<string> {
   splashImageUrl?: string;
   primaryColor: string;
   secondaryColor: string;
+  dashboardStyle: "classic" | "accent";
   contactPhone?: string;
   contactEmail?: string;
   contactAddress?: string;
@@ -27,6 +28,12 @@ const appSettingsSchema = new Schema<IAppSettings>(
     splashImageUrl: { type: String },
     primaryColor: { type: String, default: "#2563EB" },
     secondaryColor: { type: String, default: "#1E3A8A" },
+    // Admin-portal-only display preference (not sent to the mobile app):
+    // "classic" is the original plain cards + neutral sign-out button;
+    // "accent" adds icon chips to dashboard stat cards and an
+    // accent-colored sign-out button, so primaryColor shows up in more
+    // places for comparison.
+    dashboardStyle: { type: String, enum: ["classic", "accent"], default: "classic" },
     contactPhone: { type: String },
     contactEmail: { type: String },
     contactAddress: { type: String },
