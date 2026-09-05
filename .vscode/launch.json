@@ -1,0 +1,40 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Backend",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["tsx", "watch", "src/index.ts"],
+      "cwd": "${workspaceFolder}/backend",
+      "envFile": "${workspaceFolder}/backend/.env",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "restart": true
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Debug Admin (Chrome)",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/admin"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Backend: current test file",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["jest", "--runInBand", "${fileBasenameNoExtension}"],
+      "cwd": "${workspaceFolder}/backend",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug Backend + Admin",
+      "configurations": ["Debug Backend", "Debug Admin (Chrome)"]
+    }
+  ]
+}

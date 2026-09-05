@@ -29,8 +29,13 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-      <div className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+    <div
+      className="relative flex min-h-screen items-center justify-center bg-slate-900 bg-cover bg-center px-4"
+      style={{ backgroundImage: "url('/login-bg.jpg')" }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-brand-900/60 to-slate-900/80" />
+
+      <div className="relative w-full max-w-sm rounded-2xl border border-white/10 bg-white p-8 shadow-2xl">
         <h1 className="text-lg font-semibold text-slate-900">VJA Central Admin</h1>
         <p className="mt-1 text-sm text-slate-400">Sign in to manage app content</p>
 

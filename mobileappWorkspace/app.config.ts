@@ -9,7 +9,7 @@ const APP_ENV = process.env.APP_ENV ?? "development";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: "VJA Central",
+  name: "Mana Vijayawada",
   slug: "vja-central",
   scheme: "vjacentral",
   version: "1.0.0",

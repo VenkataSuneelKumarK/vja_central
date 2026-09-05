@@ -44,7 +44,7 @@ if (getRNMinorVersion() >= 75) {
   }
 }
 
-rootProject.name = 'VJA Central'
+rootProject.name = 'Mana Vijayawada'
 
 dependencyResolutionManagement {
   versionCatalogs {

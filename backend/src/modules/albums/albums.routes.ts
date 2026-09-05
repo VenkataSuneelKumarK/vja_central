@@ -86,6 +86,15 @@ adminRouter.post(
       })
     );
     const created = await Photo.insertMany(docs);
+
+    // An album's coverImage is otherwise never set anywhere in the admin
+    // flow — default it to the first photo ever added so albums don't show
+    // as blank on the mobile app's Home/Gallery cards.
+    if (!album.coverImage && created[0]) {
+      album.coverImage = created[0].thumbnailUrl;
+      await album.save();
+    }
+
     await writeAuditLog({ req, action: "add_photos", entityType: "album", entityId: req.params.id, after: { count: created.length } });
     ok(res, created, 201);
   })

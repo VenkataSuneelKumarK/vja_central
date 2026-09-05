@@ -24,4 +24,5 @@ ios/build/
 *.tsbuildinfo
 /admin/vite.config.js
 /admin/vite.config.d.ts
+.minio-data/
 

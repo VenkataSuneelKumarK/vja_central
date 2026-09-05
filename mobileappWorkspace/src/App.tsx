@@ -14,10 +14,10 @@ import { colors } from "@/theme/colors";
 
 SplashScreen.preventAutoHideAsync().catch(() => undefined);
 
-// The branded splash screen should be visible for 5-6 seconds on launch
+// The branded splash screen should be visible for 2-3 seconds on launch
 // regardless of how quickly startup work finishes, rather than flashing
 // briefly if the device/network is fast.
-const MIN_SPLASH_DURATION_MS = 5500;
+const MIN_SPLASH_DURATION_MS = 2500;
 
 function wait(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));

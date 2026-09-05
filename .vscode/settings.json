@@ -1,0 +1,15 @@
+{
+  "eslint.workingDirectories": [
+    { "directory": "backend" },
+    { "directory": "admin" },
+    { "directory": "mobileappWorkspace" }
+  ],
+  "typescript.tsdk": "admin/node_modules/typescript/lib",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.expo": true,
+    "mobileappWorkspace/android/.gradle": true,
+    "mobileappWorkspace/android/app/build": true
+  }
+}
