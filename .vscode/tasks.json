@@ -1,0 +1,105 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Backend: dev server",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "fileLocation": ["relative", "${workspaceFolder}/backend"],
+        "pattern": {
+          "regexp": "^(.*)\\((\\d+),(\\d+)\\):\\s+(error|warning)\\s+(TS\\d+):\\s+(.*)$",
+          "file": 1, "line": 2, "column": 3, "severity": 4, "code": 5, "message": 6
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "tsx watch",
+          "endsPattern": "API listening on port|MongoDB connection error|Fatal startup error"
+        }
+      },
+      "presentation": { "panel": "dedicated", "group": "servers" },
+      "runOptions": { "runOn": "default" }
+    },
+    {
+      "label": "Admin: dev server",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/admin" },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "fileLocation": ["relative", "${workspaceFolder}/admin"],
+        "pattern": {
+          "regexp": "^(.*):(\\d+):(\\d+):\\s+(error|warning):\\s+(.*)$",
+          "file": 1, "line": 2, "column": 3, "severity": 4, "message": 5
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "VITE",
+          "endsPattern": "ready in|Local:"
+        }
+      },
+      "presentation": { "panel": "dedicated", "group": "servers" },
+      "runOptions": { "runOn": "default" }
+    },
+    {
+      "label": "MinIO: storage server",
+      "type": "shell",
+      "command": "MINIO_ROOT_USER=minioadmin MINIO_ROOT_PASSWORD=minioadmin minio server ${workspaceFolder}/.minio-data --address :9000 --console-address :9001",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "minio",
+        "pattern": { "regexp": "^(nomatch)$", "file": 1 },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "MinIO Object Storage Server",
+          "endsPattern": "API:"
+        }
+      },
+      "presentation": { "panel": "dedicated", "group": "servers" },
+      "runOptions": { "runOn": "default" }
+    },
+    {
+      "label": "MinIO: setup bucket",
+      "type": "shell",
+      "command": "mc alias set local http://localhost:9000 minioadmin minioadmin && mc mb --ignore-existing local/vja-central-media && mc anonymous set download local/vja-central-media",
+      "dependsOn": ["MinIO: storage server"],
+      "dependsOrder": "sequence",
+      "problemMatcher": [],
+      "presentation": { "panel": "shared", "group": "servers" }
+    },
+    {
+      "label": "Run Backend + Admin + MinIO",
+      "dependsOn": ["Backend: dev server", "Admin: dev server", "MinIO: setup bucket"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "Backend: typecheck",
+      "type": "shell",
+      "command": "npx tsc --noEmit",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": ["$tsc"],
+      "presentation": { "panel": "shared", "group": "checks" }
+    },
+    {
+      "label": "Admin: typecheck",
+      "type": "shell",
+      "command": "npx tsc -b --noEmit",
+      "options": { "cwd": "${workspaceFolder}/admin" },
+      "problemMatcher": ["$tsc"],
+      "presentation": { "panel": "shared", "group": "checks" }
+    },
+    {
+      "label": "Backend: test",
+      "type": "shell",
+      "command": "npm test",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": [],
+      "presentation": { "panel": "shared", "group": "checks" }
+    }
+  ]
+}
