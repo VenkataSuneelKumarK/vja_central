@@ -32,12 +32,12 @@ export function AuditLogPage() {
         <>
           <Card className="overflow-x-auto">
             <table className="min-w-full divide-y divide-slate-100 text-sm">
-              <thead className="bg-slate-50">
+              <thead className="bg-gradient-to-r from-slate-100 via-slate-100/80 to-slate-100">
                 <tr>
-                  <th className="px-4 py-2.5 text-left text-xs font-medium uppercase text-slate-500">When</th>
-                  <th className="px-4 py-2.5 text-left text-xs font-medium uppercase text-slate-500">Actor</th>
-                  <th className="px-4 py-2.5 text-left text-xs font-medium uppercase text-slate-500">Action</th>
-                  <th className="px-4 py-2.5 text-left text-xs font-medium uppercase text-slate-500">Entity</th>
+                  <th className="border-b-2 border-slate-200 px-4 py-3.5 text-left text-xs font-bold uppercase tracking-wider text-slate-600">When</th>
+                  <th className="border-b-2 border-slate-200 px-4 py-3.5 text-left text-xs font-bold uppercase tracking-wider text-slate-600">Actor</th>
+                  <th className="border-b-2 border-slate-200 px-4 py-3.5 text-left text-xs font-bold uppercase tracking-wider text-slate-600">Action</th>
+                  <th className="border-b-2 border-slate-200 px-4 py-3.5 text-left text-xs font-bold uppercase tracking-wider text-slate-600">Entity</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">

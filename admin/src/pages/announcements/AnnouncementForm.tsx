@@ -7,6 +7,7 @@ import { Announcement, AnnouncementPriority, Bilingual } from "@/types";
 import { BilingualInput } from "@/components/content/BilingualInput";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { FloatingInput, FloatingSelect } from "@/components/ui/FloatingField";
 import { useAuth } from "@/context/AuthContext";
 import { canPublish } from "@/utils/permissions";
 
@@ -74,18 +75,14 @@ export function AnnouncementFormPage() {
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Priority</label>
-            <select value={priority} onChange={(e) => setPriority(e.target.value as AnnouncementPriority)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+            <FloatingSelect label="Priority" value={priority} onChange={(e) => setPriority(e.target.value as AnnouncementPriority)}>
               <option value="normal">Normal</option>
               <option value="important">Important</option>
               <option value="urgent">Urgent</option>
-            </select>
-            <p className="mt-1 text-xs text-slate-400">Urgent/important announcements can appear as a prominent card on the home screen.</p>
+            </FloatingSelect>
+            <p className="mt-1.5 text-xs text-slate-400">Urgent/important announcements can appear as a prominent card on the home screen.</p>
           </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Expires on (optional)</label>
-            <input type="date" value={expiresAt} onChange={(e) => setExpiresAt(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-          </div>
+          <FloatingInput label="Expires on (optional)" type="date" value={expiresAt} onChange={(e) => setExpiresAt(e.target.value)} />
         </div>
       </Card>
     </div>

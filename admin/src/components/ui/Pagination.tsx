@@ -15,9 +15,9 @@ export function Pagination({
 }) {
   const totalPages = Math.max(1, Math.ceil(total / limit));
   return (
-    <div className="flex items-center justify-between border-t border-slate-200 px-4 py-3 text-sm text-slate-500">
+    <div className="flex items-center justify-between rounded-xl border border-slate-200/70 bg-white/80 px-4 py-3 text-sm text-slate-500 shadow-soft backdrop-blur-sm">
       <span>
-        Page {page} of {totalPages} · {total} total
+        Page <span className="font-semibold text-slate-700">{page}</span> of {totalPages} · {total} total
       </span>
       <div className="flex gap-2">
         <Button variant="secondary" disabled={page <= 1} onClick={() => onChange(page - 1)}>

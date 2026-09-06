@@ -10,6 +10,7 @@ import { MediaUploader, UploadedMedia } from "@/components/content/MediaUploader
 import { MobilePreview, PreviewCard } from "@/components/content/MobilePreview";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { FloatingInput, FloatingSelect } from "@/components/ui/FloatingField";
 import { useAuth } from "@/context/AuthContext";
 import { canPublish } from "@/utils/permissions";
 
@@ -98,29 +99,20 @@ export function NewsFormPage() {
           <BilingualInput label="Full content" value={content} onChange={setContent} multiline required />
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Category</label>
-              <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
-                <option value="">None</option>
-                {categories?.map((c) => (
-                  <option key={c._id} value={c._id}>
-                    {c.name.en}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Author / Source</label>
-              <input value={author} onChange={(e) => setAuthor(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Source URL</label>
-              <input value={sourceUrl} onChange={(e) => setSourceUrl(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
+            <FloatingSelect label="Category" value={category} onChange={(e) => setCategory(e.target.value)}>
+              <option value="">None</option>
+              {categories?.map((c) => (
+                <option key={c._id} value={c._id}>
+                  {c.name.en}
+                </option>
+              ))}
+            </FloatingSelect>
+            <FloatingInput label="Author / Source" value={author} onChange={(e) => setAuthor(e.target.value)} />
+            <FloatingInput label="Source URL" value={sourceUrl} onChange={(e) => setSourceUrl(e.target.value)} />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Cover image</label>
+            <p className="mb-1.5 text-sm font-medium text-slate-700">Cover image</p>
             <MediaUploader multiple={false} onUploaded={handleUpload} />
             {coverImage && <img src={coverImage} alt="" className="mt-2 h-32 rounded-lg object-cover" />}
           </div>

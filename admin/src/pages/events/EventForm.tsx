@@ -8,6 +8,7 @@ import { BilingualInput } from "@/components/content/BilingualInput";
 import { MobilePreview, PreviewCard } from "@/components/content/MobilePreview";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { FloatingInput } from "@/components/ui/FloatingField";
 import { useAuth } from "@/context/AuthContext";
 import { canPublish } from "@/utils/permissions";
 
@@ -113,29 +114,14 @@ export function EventFormPage() {
           <BilingualInput label="Address" value={address} onChange={setAddress} />
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Date</label>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Start time</label>
-              <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">End time</label>
-              <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
+            <FloatingInput label="Date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+            <FloatingInput label="Start time" type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+            <FloatingInput label="End time" type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Map latitude</label>
-              <input value={lat} onChange={(e) => setLat(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Map longitude</label>
-              <input value={lng} onChange={(e) => setLng(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
+            <FloatingInput label="Map latitude" value={lat} onChange={(e) => setLat(e.target.value)} />
+            <FloatingInput label="Map longitude" value={lng} onChange={(e) => setLng(e.target.value)} />
           </div>
         </Card>
       )}

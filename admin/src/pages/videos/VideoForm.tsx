@@ -8,6 +8,7 @@ import { VideoItem, Bilingual } from "@/types";
 import { BilingualInput } from "@/components/content/BilingualInput";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { FloatingInput, FloatingSelect } from "@/components/ui/FloatingField";
 import { useAuth } from "@/context/AuthContext";
 import { canPublish } from "@/utils/permissions";
 
@@ -99,28 +100,19 @@ export function VideoFormPage() {
         </div>
 
         {source === "youtube" ? (
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">YouTube Video ID</label>
-            <input value={youtubeId} onChange={(e) => setYoutubeId(e.target.value)} placeholder="e.g. dQw4w9WgXcQ" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-          </div>
+          <FloatingInput label="YouTube Video ID (e.g. dQw4w9WgXcQ)" value={youtubeId} onChange={(e) => setYoutubeId(e.target.value)} />
         ) : (
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Hosted video URL</label>
-            <input value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-          </div>
+          <FloatingInput label="Hosted video URL" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} />
         )}
 
-        <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Category</label>
-          <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
-            <option value="">None</option>
-            {categories?.map((c) => (
-              <option key={c._id} value={c._id}>
-                {c.name.en}
-              </option>
-            ))}
-          </select>
-        </div>
+        <FloatingSelect label="Category" value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="">None</option>
+          {categories?.map((c) => (
+            <option key={c._id} value={c._id}>
+              {c.name.en}
+            </option>
+          ))}
+        </FloatingSelect>
       </Card>
     </div>
   );
