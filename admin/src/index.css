@@ -20,4 +20,108 @@
 
 body {
   @apply bg-slate-50 text-slate-900 antialiased;
+  font-feature-settings: "cv11", "ss01";
+}
+
+/* Base-layer polish for every raw <input>/<select>/<textarea> in the app —
+   they all already carry the same `rounded-lg border border-slate-300 ...`
+   utility classes inline (no shared <Input> component exists), so adding
+   transition/shadow/focus-glow here at element-selector specificity applies
+   everywhere for free without fighting the higher-specificity utility
+   classes that already own border-color/ring. */
+@layer base {
+  input,
+  select,
+  textarea {
+    transition: box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+    background-color: rgb(255 255 255 / 0.7);
+  }
+  input:hover,
+  select:hover,
+  textarea:hover {
+    border-color: rgb(var(--brand-300));
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    box-shadow: 0 0 0 4px rgb(var(--brand-500) / 0.12);
+    background-color: #fff;
+  }
+  ::selection {
+    background: rgb(var(--brand-200));
+  }
+
+  /* Custom chevron replacing the flat native one, since every <select> in
+     the app is a raw element (no shared <Select> component) — this is the
+     one property native <select> styling can't inherit from the
+     input/select/textarea rules above via CSS alone, so it needs its own
+     appearance:none + background-image treatment. padding-right needs
+     !important: the utility layer (px-3 etc., already on every select in
+     JSX) is emitted after this base rule and would otherwise win the
+     cascade and squeeze the arrow against the text. */
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 2.5rem !important;
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 1.15rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  }
+  select:hover {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  }
+  select:focus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  }
+}
+
+@layer utilities {
+  /* Frosted glass surface used for the topbar and modals. */
+  .glass {
+    background: rgb(255 255 255 / 0.72);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+  }
+
+  /* Gradient text used for headline numbers / titles. */
+  .text-gradient {
+    background: linear-gradient(135deg, rgb(var(--brand-600)), rgb(var(--brand-800)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Shimmering skeleton block used by <SkeletonRows>. */
+  .skeleton {
+    background-color: rgb(226 232 240);
+    background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 1.6s ease-in-out infinite;
+  }
+
+  /* Thin, unobtrusive scrollbar for the app shell and scrollable panels. */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--brand-300)) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--brand-300));
+    border-radius: 9999px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Subtle 3D lift used on interactive cards, stat tiles, table rows. */
+  .lift-hover {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .lift-hover:hover {
+    transform: translateY(-3px);
+  }
 }

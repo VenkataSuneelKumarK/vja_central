@@ -10,6 +10,7 @@ import { MediaUploader, UploadedMedia } from "@/components/content/MediaUploader
 import { MobilePreview, PreviewCard } from "@/components/content/MobilePreview";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { FloatingInput, FloatingSelect, FloatingTextarea } from "@/components/ui/FloatingField";
 import { useAuth } from "@/context/AuthContext";
 import { canPublish } from "@/utils/permissions";
 
@@ -127,44 +128,26 @@ export function ActivityFormPage() {
           <BilingualInput label="Location" value={location} onChange={setLocation} required />
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Date</label>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Time</label>
-              <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Category</label>
-              <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
-                <option value="">None</option>
-                {categories?.map((c) => (
-                  <option key={c._id} value={c._id}>
-                    {c.name.en}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <FloatingInput label="Date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+            <FloatingInput label="Time" type="time" value={time} onChange={(e) => setTime(e.target.value)} />
+            <FloatingSelect label="Category" value={category} onChange={(e) => setCategory(e.target.value)}>
+              <option value="">None</option>
+              {categories?.map((c) => (
+                <option key={c._id} value={c._id}>
+                  {c.name.en}
+                </option>
+              ))}
+            </FloatingSelect>
           </div>
 
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">External links (one per line)</label>
-            <textarea value={externalLinks} onChange={(e) => setExternalLinks(e.target.value)} rows={2} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">People / organizations involved (comma separated)</label>
-            <input value={peopleInvolved} onChange={(e) => setPeopleInvolved(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-          </div>
+          <FloatingTextarea label="External links (one per line)" value={externalLinks} onChange={(e) => setExternalLinks(e.target.value)} rows={2} />
+          <FloatingInput label="People / organizations involved (comma separated)" value={peopleInvolved} onChange={(e) => setPeopleInvolved(e.target.value)} />
         </Card>
       )}
 
       {tab === "media" && (
         <Card className="space-y-4 p-5">
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Cover image URL</label>
-            <input value={coverImage} onChange={(e) => setCoverImage(e.target.value)} placeholder="Set from an uploaded photo below, or paste a URL" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-          </div>
+          <FloatingInput label="Cover image URL (or set from an uploaded photo below)" value={coverImage} onChange={(e) => setCoverImage(e.target.value)} />
           <MediaUploader
             onUploaded={(uploaded) => {
               setMedia((prev) => [...prev, ...uploaded]);

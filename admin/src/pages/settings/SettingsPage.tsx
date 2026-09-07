@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { api, apiErrorMessage } from "@/api/client";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { FloatingInput } from "@/components/ui/FloatingField";
 import { applyBrandColor } from "@/utils/theme";
 import { useTheme, DashboardStyle } from "@/context/ThemeContext";
 
@@ -62,18 +63,9 @@ export function SettingsPage() {
       <Card className="p-5">
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Logo URL</label>
-              <input value={form.logoUrl ?? ""} onChange={(e) => setForm({ ...form, logoUrl: e.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Profile Image URL</label>
-              <input value={form.profileImageUrl ?? ""} onChange={(e) => setForm({ ...form, profileImageUrl: e.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Splash Image URL</label>
-              <input value={form.splashImageUrl ?? ""} onChange={(e) => setForm({ ...form, splashImageUrl: e.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
+            <FloatingInput label="Logo URL" value={form.logoUrl ?? ""} onChange={(e) => setForm({ ...form, logoUrl: e.target.value })} />
+            <FloatingInput label="Profile Image URL" value={form.profileImageUrl ?? ""} onChange={(e) => setForm({ ...form, profileImageUrl: e.target.value })} />
+            <FloatingInput label="Splash Image URL" value={form.splashImageUrl ?? ""} onChange={(e) => setForm({ ...form, splashImageUrl: e.target.value })} />
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -88,23 +80,24 @@ export function SettingsPage() {
                     setForm({ ...form, primaryColor: e.target.value });
                     applyBrandColor(e.target.value);
                   }}
-                  className="h-9 w-9 rounded border border-slate-300"
+                  className="h-[42px] w-11 shrink-0 rounded-lg border-2 border-slate-300"
                 />
-                <input
+                <FloatingInput
+                  wrapperClassName="flex-1"
+                  label="Hex value"
                   value={form.primaryColor}
                   onChange={(e) => {
                     setForm({ ...form, primaryColor: e.target.value });
                     if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) applyBrandColor(e.target.value);
                   }}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
                 />
               </div>
             </div>
             <div>
               <label className="mb-1 block text-sm font-medium text-slate-700">Secondary Color</label>
               <div className="flex items-center gap-2">
-                <input type="color" value={form.secondaryColor} onChange={(e) => setForm({ ...form, secondaryColor: e.target.value })} className="h-9 w-9 rounded border border-slate-300" />
-                <input value={form.secondaryColor} onChange={(e) => setForm({ ...form, secondaryColor: e.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+                <input type="color" value={form.secondaryColor} onChange={(e) => setForm({ ...form, secondaryColor: e.target.value })} className="h-[42px] w-11 shrink-0 rounded-lg border-2 border-slate-300" />
+                <FloatingInput wrapperClassName="flex-1" label="Hex value" value={form.secondaryColor} onChange={(e) => setForm({ ...form, secondaryColor: e.target.value })} />
               </div>
             </div>
           </div>
@@ -135,29 +128,14 @@ export function SettingsPage() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Contact Phone</label>
-              <input value={form.contactPhone ?? ""} onChange={(e) => setForm({ ...form, contactPhone: e.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Contact Email</label>
-              <input value={form.contactEmail ?? ""} onChange={(e) => setForm({ ...form, contactEmail: e.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Contact Address</label>
-              <input value={form.contactAddress ?? ""} onChange={(e) => setForm({ ...form, contactAddress: e.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
+            <FloatingInput label="Contact Phone" value={form.contactPhone ?? ""} onChange={(e) => setForm({ ...form, contactPhone: e.target.value })} />
+            <FloatingInput label="Contact Email" value={form.contactEmail ?? ""} onChange={(e) => setForm({ ...form, contactEmail: e.target.value })} />
+            <FloatingInput label="Contact Address" value={form.contactAddress ?? ""} onChange={(e) => setForm({ ...form, contactAddress: e.target.value })} />
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Privacy Policy URL</label>
-              <input value={form.privacyPolicyUrl ?? ""} onChange={(e) => setForm({ ...form, privacyPolicyUrl: e.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Terms URL</label>
-              <input value={form.termsUrl ?? ""} onChange={(e) => setForm({ ...form, termsUrl: e.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
+            <FloatingInput label="Privacy Policy URL" value={form.privacyPolicyUrl ?? ""} onChange={(e) => setForm({ ...form, privacyPolicyUrl: e.target.value })} />
+            <FloatingInput label="Terms URL" value={form.termsUrl ?? ""} onChange={(e) => setForm({ ...form, termsUrl: e.target.value })} />
           </div>
 
           <Button type="submit" disabled={save.isPending}>

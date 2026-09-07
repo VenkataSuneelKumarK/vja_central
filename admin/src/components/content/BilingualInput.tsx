@@ -1,4 +1,5 @@
 import { Bilingual } from "@/types";
+import { FloatingInput, FloatingTextarea } from "@/components/ui/FloatingField";
 
 interface Props {
   label: string;
@@ -12,31 +13,15 @@ interface Props {
 // Telugu (§27 of the brief) so admins translate while the context is fresh,
 // rather than in a separate pass.
 export function BilingualInput({ label, value, onChange, multiline, required }: Props) {
-  const Field = multiline ? "textarea" : "input";
+  const Field = multiline ? FloatingTextarea : FloatingInput;
   return (
     <div>
-      <label className="mb-1 block text-sm font-medium text-slate-700">
+      <p className="mb-1.5 text-sm font-medium text-slate-700">
         {label} {required && <span className="text-red-500">*</span>}
-      </label>
+      </p>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div>
-          <span className="mb-1 block text-xs font-medium uppercase tracking-wide text-slate-400">English</span>
-          <Field
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
-            rows={multiline ? 4 : undefined}
-            value={value.en}
-            onChange={(e) => onChange({ ...value, en: e.target.value })}
-          />
-        </div>
-        <div>
-          <span className="mb-1 block text-xs font-medium uppercase tracking-wide text-slate-400">తెలుగు (Telugu)</span>
-          <Field
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
-            rows={multiline ? 4 : undefined}
-            value={value.te}
-            onChange={(e) => onChange({ ...value, te: e.target.value })}
-          />
-        </div>
+        <Field rows={multiline ? 4 : undefined} label="English" value={value.en} onChange={(e) => onChange({ ...value, en: e.target.value })} />
+        <Field rows={multiline ? 4 : undefined} label="తెలుగు (Telugu)" value={value.te} onChange={(e) => onChange({ ...value, te: e.target.value })} />
       </div>
     </div>
   );

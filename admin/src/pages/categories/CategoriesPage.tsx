@@ -5,6 +5,7 @@ import { apiErrorMessage } from "@/api/client";
 import { ContentType } from "@/types";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { FloatingInput } from "@/components/ui/FloatingField";
 import { canWrite } from "@/utils/permissions";
 import { useAuth } from "@/context/AuthContext";
 
@@ -45,18 +46,9 @@ export function CategoriesPage() {
       {canWrite(user?.role) && (
         <Card className="p-5">
           <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Name (English)</label>
-              <input required value={nameEn} onChange={(e) => setNameEn(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Name (Telugu)</label>
-              <input value={nameTe} onChange={(e) => setNameTe(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Slug</label>
-              <input required value={slug} onChange={(e) => setSlug(e.target.value.toLowerCase())} placeholder="e.g. public-activities" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            </div>
+            <FloatingInput label="Name (English)" required value={nameEn} onChange={(e) => setNameEn(e.target.value)} />
+            <FloatingInput label="Name (Telugu)" value={nameTe} onChange={(e) => setNameTe(e.target.value)} />
+            <FloatingInput label="Slug (e.g. public-activities)" required value={slug} onChange={(e) => setSlug(e.target.value.toLowerCase())} />
             <div>
               <label className="mb-1 block text-sm font-medium text-slate-700">Applies to</label>
               <div className="flex flex-wrap gap-3">

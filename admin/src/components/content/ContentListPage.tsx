@@ -77,20 +77,26 @@ export function ContentListPage<T extends { _id: string; status: ContentStatus }
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 animate-fade-in">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-slate-900">{title}</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-slate-900">{title}</h1>
         {canWrite(user?.role) && <Button onClick={() => navigate(newHref)}>+ New</Button>}
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200/70 bg-white/70 p-2 shadow-soft backdrop-blur-sm">
+        <span className="flex items-center gap-1.5 pl-2 text-xs font-medium uppercase tracking-wide text-slate-400">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 5h16M7 12h10M10 19h4" />
+          </svg>
+          Filter
+        </span>
         <select
           value={status}
           onChange={(e) => {
             setStatus(e.target.value as ContentStatus | "");
             setPage(1);
           }}
-          className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+          className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition-shadow hover:shadow-md"
         >
           {STATUS_FILTERS.map((f) => (
             <option key={f.value} value={f.value}>

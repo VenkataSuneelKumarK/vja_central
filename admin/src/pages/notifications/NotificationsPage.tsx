@@ -5,6 +5,8 @@ import { api, apiErrorMessage, Paginated } from "@/api/client";
 import { Bilingual, ContentType } from "@/types";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { FloatingSelect } from "@/components/ui/FloatingField";
+import { BilingualInput } from "@/components/content/BilingualInput";
 
 interface NotificationRecord {
   _id: string;
@@ -48,22 +50,21 @@ export function NotificationsPage() {
       <h1 className="text-xl font-semibold text-slate-900">Push Notifications</h1>
 
       <Card className="p-5">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <input required placeholder="Title (English)" value={title.en} onChange={(e) => setTitle({ ...title, en: e.target.value })} className="rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            <input placeholder="Title (Telugu)" value={title.te} onChange={(e) => setTitle({ ...title, te: e.target.value })} className="rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-          </div>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <textarea required placeholder="Body (English)" value={body.en} onChange={(e) => setBody({ ...body, en: e.target.value })} rows={3} className="rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-            <textarea placeholder="Body (Telugu)" value={body.te} onChange={(e) => setBody({ ...body, te: e.target.value })} rows={3} className="rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-          </div>
-          <select value={contentType} onChange={(e) => setContentType(e.target.value as ContentType | "general")} className="rounded-lg border border-slate-300 px-3 py-2 text-sm">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <BilingualInput label="Title" value={title} onChange={setTitle} required />
+          <BilingualInput label="Body" value={body} onChange={setBody} multiline required />
+          <FloatingSelect
+            label="Target content type"
+            wrapperClassName="max-w-xs"
+            value={contentType}
+            onChange={(e) => setContentType(e.target.value as ContentType | "general")}
+          >
             <option value="general">General</option>
             <option value="activity">Activity</option>
             <option value="event">Event</option>
             <option value="news">News</option>
             <option value="announcement">Announcement</option>
-          </select>
+          </FloatingSelect>
           <Button type="submit" disabled={send.isPending}>
             Send Notification
           </Button>

@@ -1,5 +1,16 @@
 import { HTMLAttributes } from "react";
 
-export function Card({ className = "", ...props }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={`rounded-xl border border-slate-200 bg-white shadow-sm ${className}`} {...props} />;
+export function Card({
+  className = "",
+  interactive = false,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & { interactive?: boolean }) {
+  return (
+    <div
+      className={`rounded-2xl border border-slate-200/70 bg-white/90 shadow-soft backdrop-blur-sm ${
+        interactive ? "lift-hover cursor-pointer hover:shadow-elevated hover:border-brand-200" : ""
+      } ${className}`}
+      {...props}
+    />
+  );
 }

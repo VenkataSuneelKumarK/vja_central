@@ -5,6 +5,7 @@ import { api, apiErrorMessage } from "@/api/client";
 import { AdminUser, Role } from "@/types";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { FloatingInput, FloatingSelect } from "@/components/ui/FloatingField";
 
 const ROLES: Role[] = ["super_admin", "content_admin", "editor", "viewer"];
 
@@ -48,30 +49,18 @@ export function UsersPage() {
       <h1 className="text-xl font-semibold text-slate-900">Users &amp; Roles</h1>
 
       <Card className="p-5">
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-3 sm:grid-cols-5 sm:items-end">
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Name</label>
-            <input required value={name} onChange={(e) => setName(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Email</label>
-            <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Temp. Password</label>
-            <input required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Role</label>
-            <select value={role} onChange={(e) => setRole(e.target.value as Role)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
-              {ROLES.map((r) => (
-                <option key={r} value={r}>
-                  {r}
-                </option>
-              ))}
-            </select>
-          </div>
-          <Button type="submit" disabled={createUser.isPending}>
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-3 sm:grid-cols-5 sm:items-start">
+          <FloatingInput label="Name" required value={name} onChange={(e) => setName(e.target.value)} />
+          <FloatingInput label="Email" required type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <FloatingInput label="Temp. Password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} />
+          <FloatingSelect label="Role" value={role} onChange={(e) => setRole(e.target.value as Role)}>
+            {ROLES.map((r) => (
+              <option key={r} value={r}>
+                {r}
+              </option>
+            ))}
+          </FloatingSelect>
+          <Button type="submit" disabled={createUser.isPending} className="h-[42px]">
             Add User
           </Button>
         </form>

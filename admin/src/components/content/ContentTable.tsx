@@ -30,21 +30,21 @@ export function ContentTable<T extends { _id: string; status: ContentStatus }>({
   canDelete: boolean;
 }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+    <div className="overflow-x-auto rounded-2xl border border-slate-200/70 bg-white/90 shadow-soft backdrop-blur-sm">
       <table className="min-w-full divide-y divide-slate-100 text-sm">
-        <thead className="bg-slate-50">
+        <thead className="bg-gradient-to-r from-slate-100 via-slate-100/80 to-slate-100">
           <tr>
             {columns.map((c) => (
-              <th key={c.header} className="px-4 py-2.5 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+              <th key={c.header} className="border-b-2 border-slate-200 px-4 py-3.5 text-left text-xs font-bold uppercase tracking-wider text-slate-600">
                 {c.header}
               </th>
             ))}
-            <th className="px-4 py-2.5 text-right text-xs font-medium uppercase tracking-wide text-slate-500">Actions</th>
+            <th className="border-b-2 border-slate-200 px-4 py-3.5 text-right text-xs font-bold uppercase tracking-wider text-slate-600">Actions</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-100">
           {items.map((item) => (
-            <tr key={item._id} className="hover:bg-slate-50">
+            <tr key={item._id} className="transition-colors hover:bg-brand-50/50">
               {columns.map((c) => (
                 <td key={c.header} className={`px-4 py-3 ${c.className ?? ""}`}>
                   {c.render(item)}
