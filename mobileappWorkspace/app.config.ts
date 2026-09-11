@@ -19,7 +19,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   splash: {
     image: "./assets/splash.png",
     resizeMode: "contain",
-    backgroundColor: "#2563EB",
+    backgroundColor: "#0B1F45",
   },
   assetBundlePatterns: ["**/*"],
   ios: {

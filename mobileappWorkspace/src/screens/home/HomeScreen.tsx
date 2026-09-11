@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
-import { ScrollView, View, Text, Image, FlatList, RefreshControl, StyleSheet } from "react-native";
+import { ScrollView, View, Text, Image, FlatList, RefreshControl, Dimensions, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useHome } from "@/api/hooks/useHome";
 import { useAppSettings } from "@/api/hooks/useMisc";
-import { ContentCard } from "@/components/ContentCard";
+import { HomeMediaCard } from "@/components/HomeMediaCard";
 import { AnnouncementBanner } from "@/components/AnnouncementBanner";
 import { SectionHeader } from "@/components/SectionHeader";
 import { SkeletonList, ErrorState } from "@/components/States";
@@ -14,6 +14,11 @@ import { colors, spacing } from "@/theme/colors";
 import { RootStackParamList } from "@/navigation/types";
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
+
+// Two cards per row, with a sliver of the next one peeking at the edge —
+// matches the reference catalog layout rather than the previous compact
+// fixed-width scroller.
+const CARD_WIDTH = Dimensions.get("window").width * 0.44;
 
 export function HomeScreen() {
   const { t } = useTranslation();
@@ -52,8 +57,8 @@ export function HomeScreen() {
           keyExtractor={(item) => item._id}
           contentContainerStyle={{ gap: spacing.md }}
           renderItem={({ item }) => (
-            <View style={{ width: 220 }}>
-              <ContentCard
+            <View style={{ width: CARD_WIDTH }}>
+              <HomeMediaCard
                 image={item.coverImage}
                 title={tt(item.title)}
                 subtitle={tt(item.location)}
@@ -72,8 +77,8 @@ export function HomeScreen() {
           keyExtractor={(item) => item._id}
           contentContainerStyle={{ gap: spacing.md }}
           renderItem={({ item }) => (
-            <View style={{ width: 220 }}>
-              <ContentCard
+            <View style={{ width: CARD_WIDTH }}>
+              <HomeMediaCard
                 image={item.media[0]?.thumbnailUrl}
                 title={tt(item.title)}
                 subtitle={new Date(item.date).toLocaleDateString()}
@@ -92,8 +97,8 @@ export function HomeScreen() {
           keyExtractor={(item) => item._id}
           contentContainerStyle={{ gap: spacing.md }}
           renderItem={({ item }) => (
-            <View style={{ width: 220 }}>
-              <ContentCard image={item.coverImage} title={tt(item.title)} onPress={() => navigation.navigate("NewsDetail", { id: item._id })} />
+            <View style={{ width: CARD_WIDTH }}>
+              <HomeMediaCard image={item.coverImage} title={tt(item.title)} onPress={() => navigation.navigate("NewsDetail", { id: item._id })} />
             </View>
           )}
         />
@@ -107,8 +112,8 @@ export function HomeScreen() {
           keyExtractor={(item) => item._id}
           contentContainerStyle={{ gap: spacing.md }}
           renderItem={({ item }) => (
-            <View style={{ width: 140 }}>
-              <ContentCard image={item.coverImage} title={tt(item.title)} onPress={() => navigation.navigate("AlbumDetail", { id: item._id })} />
+            <View style={{ width: CARD_WIDTH }}>
+              <HomeMediaCard image={item.coverImage} title={tt(item.title)} onPress={() => navigation.navigate("AlbumDetail", { id: item._id })} />
             </View>
           )}
         />
@@ -122,8 +127,8 @@ export function HomeScreen() {
           keyExtractor={(item) => item._id}
           contentContainerStyle={{ gap: spacing.md }}
           renderItem={({ item }) => (
-            <View style={{ width: 180 }}>
-              <ContentCard image={item.thumbnailUrl} title={tt(item.title)} onPress={() => navigation.navigate("VideoDetail", { id: item._id })} />
+            <View style={{ width: CARD_WIDTH }}>
+              <HomeMediaCard image={item.thumbnailUrl} title={tt(item.title)} onPress={() => navigation.navigate("VideoDetail", { id: item._id })} />
             </View>
           )}
         />

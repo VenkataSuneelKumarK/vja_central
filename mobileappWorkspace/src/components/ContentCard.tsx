@@ -47,7 +47,11 @@ export function ContentCard({
 const styles = StyleSheet.create({
   card: { backgroundColor: colors.surface, borderRadius: radius.lg, overflow: "hidden", borderWidth: 1, borderColor: colors.border },
   pressed: { opacity: 0.85 },
-  image: { width: "100%", height: 140 },
+  // A fixed height cropped source photos badly — a square upload rendered
+  // at a fixed 140px on a ~380px-wide full-width list card is an extreme
+  // ~2.7:1 letterbox, cutting off most of the image vertically. A ratio
+  // scales sensibly regardless of the card's actual width.
+  image: { width: "100%", aspectRatio: 4 / 3 },
   imagePlaceholder: { backgroundColor: colors.border },
   body: { padding: spacing.md, gap: 4 },
   badge: { alignSelf: "flex-start", backgroundColor: "#EFF6FF", paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: radius.full, marginBottom: 2 },
