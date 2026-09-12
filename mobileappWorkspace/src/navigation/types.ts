@@ -3,7 +3,7 @@ import { NavigatorScreenParams } from "@react-navigation/native";
 export type MainTabParamList = {
   HomeTab: undefined;
   ActivitiesTab: undefined;
-  EventsTab: undefined;
+  GrievanceTab: undefined;
   GalleryTab: undefined;
   MoreTab: undefined;
 };
@@ -19,9 +19,15 @@ export type RootStackParamList = {
   PhotoViewer: { albumId: string; initialIndex: number };
   VideoDetail: { id: string };
   News: undefined;
+  Events: undefined;
   Announcements: undefined;
   Search: undefined;
   Settings: undefined;
+  CitizenLogin: undefined;
+  CitizenRegister: undefined;
+  NewGrievance: undefined;
+  GrievanceSuccess: { grievanceNumber: string; grievanceId: string };
+  GrievanceDetail: { id: string };
 };
 
 declare global {

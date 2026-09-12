@@ -6,6 +6,7 @@ import { StatIcon } from "@/components/ui/StatIcon";
 const navItems: Array<{ to: string; label: string; end?: boolean; icon: Parameters<typeof StatIcon>[0]["name"] }> = [
   { to: "/", label: "Dashboard", end: true, icon: "dashboard" },
   { to: "/activities", label: "Activities", icon: "activities" },
+  { to: "/grievances", label: "Grievances", icon: "grievances" },
   { to: "/events", label: "Events", icon: "events" },
   { to: "/news", label: "News", icon: "news" },
   { to: "/gallery/albums", label: "Photo Gallery", icon: "photos" },
@@ -16,6 +17,7 @@ const navItems: Array<{ to: string; label: string; end?: boolean; icon: Paramete
 ];
 
 const superAdminItems: Array<{ to: string; label: string; icon: Parameters<typeof StatIcon>[0]["name"] }> = [
+  { to: "/grievances/settings", label: "Grievance Settings", icon: "settings" },
   { to: "/users", label: "Users & Roles", icon: "users" },
   { to: "/audit-log", label: "Audit Log", icon: "audit" },
   { to: "/settings", label: "Branding & Settings", icon: "settings" },

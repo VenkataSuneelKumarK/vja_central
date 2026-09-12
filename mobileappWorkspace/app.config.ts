@@ -32,7 +32,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     adaptiveIcon: { foregroundImage: "./assets/adaptive-icon.png", backgroundColor: "#2563EB" },
     permissions: ["NOTIFICATIONS"],
   },
-  plugins: ["expo-notifications"],
+  plugins: [
+    "expo-notifications",
+    [
+      "expo-image-picker",
+      {
+        photosPermission: "Allow Mana Vijayawada to access your photos so you can attach them to a grievance.",
+      },
+    ],
+  ],
   extra: {
     apiBaseUrl: API_BASE_URL,
     appEnv: APP_ENV,

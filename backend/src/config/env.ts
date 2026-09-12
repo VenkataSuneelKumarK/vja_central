@@ -13,6 +13,13 @@ const envSchema = z.object({
   JWT_ACCESS_EXPIRES_IN: z.string().default("15m"),
   JWT_REFRESH_EXPIRES_IN: z.string().default("7d"),
 
+  // Fully separate secrets from the admin JWT pair above — a citizen token
+  // must never be verifiable by admin middleware or vice versa.
+  JWT_CITIZEN_ACCESS_SECRET: z.string().min(16, "JWT_CITIZEN_ACCESS_SECRET must be at least 16 chars"),
+  JWT_CITIZEN_REFRESH_SECRET: z.string().min(16, "JWT_CITIZEN_REFRESH_SECRET must be at least 16 chars"),
+  JWT_CITIZEN_ACCESS_EXPIRES_IN: z.string().default("1h"),
+  JWT_CITIZEN_REFRESH_EXPIRES_IN: z.string().default("30d"),
+
   ADMIN_ORIGIN: z.string().default("http://localhost:5173"),
 
   AWS_REGION: z.string().default("ap-south-1"),
@@ -32,6 +39,10 @@ const envSchema = z.object({
   RATE_LIMIT_WINDOW_MS: z.coerce.number().default(900_000),
   RATE_LIMIT_MAX: z.coerce.number().default(300),
   LOGIN_RATE_LIMIT_MAX: z.coerce.number().default(10),
+  // Public citizen registration/login traffic is expected to be much higher
+  // volume than staff admin logins, so it gets its own, more generous budget
+  // rather than sharing LOGIN_RATE_LIMIT_MAX.
+  CITIZEN_AUTH_RATE_LIMIT_MAX: z.coerce.number().default(30),
 });
 
 const parsed = envSchema.safeParse(process.env);

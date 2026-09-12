@@ -6,6 +6,7 @@ import { RootStackParamList } from "@/navigation/types";
 import { colors, spacing, radius } from "@/theme/colors";
 
 const items: Array<{ key: keyof RootStackParamList; labelKey: string }> = [
+  { key: "Events", labelKey: "more.events" },
   { key: "News", labelKey: "more.news" },
   { key: "Announcements", labelKey: "more.announcements" },
   { key: "Search", labelKey: "more.search" },

@@ -18,3 +18,12 @@ export function canDelete(role?: Role): boolean {
 export function isSuperAdmin(role?: Role): boolean {
   return role === "super_admin";
 }
+
+// Mirrors backend/src/common/constants.ts GRIEVANCE_MANAGE_ROLES /
+// GRIEVANCE_VIEW_ROLES. Every signed-in admin/staff role can view
+// grievances; only super_admin and content_admin can assign, change
+// status/priority, resolve, reject, or edit department/officer/SLA config.
+export const GRIEVANCE_MANAGE_ROLES: Role[] = ["super_admin", "content_admin"];
+export function canManageGrievances(role?: Role): boolean {
+  return !!role && GRIEVANCE_MANAGE_ROLES.includes(role);
+}

@@ -69,7 +69,7 @@ export function HomeScreen() {
         />
       </Section>
 
-      <Section title={t("home.upcomingEvents")} onSeeAll={() => navigation.navigate("MainTabs", { screen: "EventsTab" })}>
+      <Section title={t("home.upcomingEvents")} onSeeAll={() => navigation.navigate("Events")}>
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}

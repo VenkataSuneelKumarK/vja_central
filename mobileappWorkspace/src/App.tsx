@@ -7,6 +7,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { initI18n, hasChosenLanguage } from "@/i18n";
 import { queryClient, asyncStoragePersister } from "@/api/queryClient";
 import { registerForPushNotificationsAsync } from "@/notifications";
+import { hydrateCitizenSession } from "@/api/citizenAuth";
 import { RootNavigator } from "@/navigation/RootNavigator";
 import { OnboardingLanguageScreen } from "@/screens/onboarding/OnboardingLanguageScreen";
 import { OfflineBanner } from "@/components/OfflineBanner";
@@ -33,6 +34,7 @@ export default function App() {
 
       await initI18n();
       setNeedsOnboarding(!(await hasChosenLanguage()));
+      await hydrateCitizenSession();
       await registerForPushNotificationsAsync();
 
       await minDelay;

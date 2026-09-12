@@ -16,6 +16,7 @@ const PATHS: Record<string, string> = {
   audit: "M6 3h9l3 3v15H6V3Zm9 0v3h3M9 10h6M9 13h6M9 16h3",
   settings:
     "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7-3c0 .4 0 .8-.1 1.2l2 1.5-2 3.4-2.3-1a7 7 0 0 1-2 1.2l-.4 2.5H9.8l-.4-2.5a7 7 0 0 1-2-1.2l-2.3 1-2-3.4 2-1.5A7 7 0 0 1 5 12c0-.4 0-.8.1-1.2l-2-1.5 2-3.4 2.3 1a7 7 0 0 1 2-1.2L9.8 3h4.4l.4 2.5a7 7 0 0 1 2 1.2l2.3-1 2 3.4-2 1.5c.1.4.1.8.1 1.2Z",
+  grievances: "M4 4h13l3 3v13H7l-3-3V4Zm3 6h10M7 13h7M7 16h4M12 3v4h4",
 };
 
 export function StatIcon({ name, size = 16 }: { name: keyof typeof PATHS; size?: number }) {

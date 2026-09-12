@@ -1,5 +1,5 @@
 {
-  "tabs": { "home": "Home", "activities": "Activities", "events": "Events", "gallery": "Gallery", "more": "More" },
+  "tabs": { "home": "Home", "activities": "Activities", "grievance": "Grievance", "gallery": "Gallery", "more": "More" },
   "home": {
     "title": "Mana Vijayawada",
     "latestActivity": "Latest Activity",
@@ -16,7 +16,7 @@
   "gallery": { "albums": "Albums", "videos": "Videos", "emptyAlbums": "No albums yet", "emptyVideos": "No videos yet" },
   "announcements": { "title": "Announcements", "empty": "No announcements", "urgent": "Urgent", "important": "Important" },
   "search": { "title": "Search", "placeholder": "Search activities, events, news…", "noResults": "No results found", "filters": "Filters" },
-  "more": { "title": "More", "news": "News", "announcements": "Announcements", "search": "Search", "settings": "Settings", "about": "About", "privacy": "Privacy Policy", "terms": "Terms of Use", "contact": "Contact / Information" },
+  "more": { "title": "More", "events": "Events", "news": "News", "announcements": "Announcements", "search": "Search", "settings": "Settings", "about": "About", "privacy": "Privacy Policy", "terms": "Terms of Use", "contact": "Contact / Information" },
   "settings": { "title": "Settings", "language": "Language", "notifications": "Push Notifications", "about": "About" },
   "common": {
     "retry": "Retry",
@@ -26,5 +26,114 @@
     "share": "Share",
     "noDate": "No date"
   },
-  "onboarding": { "chooseLanguage": "Choose your language", "continue": "Continue" }
+  "onboarding": { "chooseLanguage": "Choose your language", "continue": "Continue" },
+  "grievance": {
+    "landing": {
+      "title": "Praja Samvad",
+      "titleTelugu": "ప్రజలతో ముఖాముఖి",
+      "subtitle": "Raise a public grievance, track its progress, and hear back once it's resolved — sign in or create an account to get started.",
+      "login": "Login",
+      "register": "Sign Up"
+    },
+    "login": {
+      "title": "Login",
+      "subtitle": "Log in to view and track your grievances.",
+      "errorRequired": "Please enter your username/mobile number and password.",
+      "errorInvalid": "Incorrect username/mobile number or password.",
+      "submit": "Login",
+      "switchToRegister": "New here? Create an account"
+    },
+    "register": {
+      "title": "Sign Up",
+      "subtitle": "Create an account to submit and track grievances.",
+      "errorUsername": "Username must be at least 3 characters.",
+      "errorMobile": "Enter a valid 10-digit Indian mobile number.",
+      "errorPassword": "Password must be at least 8 characters.",
+      "errorMismatch": "Passwords do not match.",
+      "errorDuplicate": "This username or mobile number is already registered.",
+      "submit": "Create Account",
+      "switchToLogin": "Already have an account? Login"
+    },
+    "myGrievances": {
+      "title": "My Grievances",
+      "empty": "You haven't submitted any grievances yet.",
+      "segment": { "newRequest": "New", "pending": "Pending", "completed": "Completed", "all": "All" }
+    },
+    "newRequest": {
+      "title": "New Grievance",
+      "errorHeading": "Heading must be at least 5 characters.",
+      "errorDescription": "Please describe the issue in more detail (at least 10 characters).",
+      "errorCategory": "Please select a category.",
+      "errorSubCategory": "Please select a sub-category.",
+      "errorCustomNote": "Please describe the issue.",
+      "errorUploading": "Please wait for photo uploads to finish.",
+      "errorPermission": "Photo library access is needed to attach a photo.",
+      "submit": "Submit Grievance"
+    },
+    "success": {
+      "title": "Grievance Submitted",
+      "subtitle": "Your grievance has been registered successfully.",
+      "note": "You can track its status anytime from My Grievances.",
+      "viewDetail": "Track Status",
+      "backToList": "Back to My Grievances"
+    },
+    "detail": {
+      "title": "Grievance Detail",
+      "timeline": "Timeline",
+      "verifyPrompt": "Has this issue been resolved to your satisfaction?",
+      "confirmClose": "Yes, Close Request",
+      "stillNotResolved": "No, Issue Still Exists",
+      "reopenReasonLabel": "Please tell us why the issue is still not resolved",
+      "submitReopen": "Reopen Grievance",
+      "feedbackPrompt": "Rate your experience",
+      "feedbackCommentOptional": "Comment (optional)",
+      "submitFeedback": "Submit Feedback",
+      "yourFeedback": "Your Feedback"
+    },
+    "fields": {
+      "usernameOrMobile": "Username or Mobile Number",
+      "password": "Password",
+      "username": "Username",
+      "mobile": "Mobile Number",
+      "fullNameOptional": "Full Name (optional)",
+      "confirmPassword": "Confirm Password",
+      "heading": "Heading",
+      "description": "Description",
+      "category": "Category",
+      "subCategory": "Sub-category",
+      "customCategoryNote": "Please describe the issue",
+      "priority": "Priority",
+      "areaOptional": "Area / Locality (optional)",
+      "wardOptional": "Ward (optional)",
+      "landmarkOptional": "Landmark (optional)",
+      "attachmentsOptional": "Photos (optional)",
+      "grievanceId": "Grievance ID",
+      "department": "Department",
+      "officer": "Officer",
+      "dueDate": "Due Date",
+      "submitted": "Submitted",
+      "resolution": "Resolution"
+    },
+    "status": {
+      "open": "Open",
+      "assigned": "Assigned",
+      "in_progress": "In Progress",
+      "resolved": "Resolved",
+      "verified": "Verified",
+      "reopened": "Reopened",
+      "closed": "Closed",
+      "rejected": "Rejected"
+    },
+    "priority": {
+      "emergency": "Emergency",
+      "high": "High",
+      "normal": "Normal",
+      "suggestion": "Suggestion"
+    },
+    "sla": {
+      "on_track": "On Time",
+      "due_soon": "Due Soon",
+      "overdue": "Overdue"
+    }
+  }
 }

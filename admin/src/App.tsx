@@ -7,6 +7,9 @@ import { LoginPage } from "@/pages/Login";
 import { DashboardPage } from "@/pages/Dashboard";
 import { ActivitiesListPage } from "@/pages/activities/ActivitiesList";
 import { ActivityFormPage } from "@/pages/activities/ActivityForm";
+import { GrievancesListPage } from "@/pages/grievances/GrievancesListPage";
+import { GrievanceDetailPage } from "@/pages/grievances/GrievanceDetailPage";
+import { GrievanceSettingsPage } from "@/pages/grievances/GrievanceSettingsPage";
 import { EventsListPage } from "@/pages/events/EventsList";
 import { EventFormPage } from "@/pages/events/EventForm";
 import { NewsListPage } from "@/pages/news/NewsList";
@@ -37,6 +40,17 @@ export function App() {
 
               <Route path="/activities" element={<ActivitiesListPage />} />
               <Route path="/activities/:id" element={<ActivityFormPage />} />
+
+              <Route path="/grievances" element={<GrievancesListPage />} />
+              <Route path="/grievances/:id" element={<GrievanceDetailPage />} />
+              <Route
+                path="/grievances/settings"
+                element={
+                  <RequireRole roles={["super_admin"]}>
+                    <GrievanceSettingsPage />
+                  </RequireRole>
+                }
+              />
 
               <Route path="/events" element={<EventsListPage />} />
               <Route path="/events/:id" element={<EventFormPage />} />

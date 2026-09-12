@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTranslation } from "react-i18next";
 import { HomeScreen } from "@/screens/home/HomeScreen";
 import { ActivitiesListScreen } from "@/screens/activities/ActivitiesListScreen";
-import { EventsListScreen } from "@/screens/events/EventsListScreen";
+import { GrievanceHomeScreen } from "@/screens/grievance/GrievanceHomeScreen";
 import { GalleryScreen } from "@/screens/gallery/GalleryScreen";
 import { MoreScreen } from "@/screens/more/MoreScreen";
 import { MainTabParamList } from "./types";
@@ -11,11 +11,13 @@ import { colors } from "@/theme/colors";
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
-// Bottom tabs: Home | Activities | Events | Gallery | More (§41 of the brief).
+// Bottom tabs: Home | Activities | Grievance | Gallery | More. Events moved
+// into More (still fully reachable, just no longer a tab) to make room for
+// the Praja Samvad public-grievance tab.
 const tabIcon: Record<keyof MainTabParamList, string> = {
   HomeTab: "🏠",
   ActivitiesTab: "📋",
-  EventsTab: "📅",
+  GrievanceTab: "📝",
   GalleryTab: "🖼️",
   MoreTab: "☰",
 };
@@ -42,9 +44,9 @@ export function MainTabs() {
         options={{ title: t("tabs.activities"), tabBarIcon: () => <Text>{tabIcon.ActivitiesTab}</Text> }}
       />
       <Tab.Screen
-        name="EventsTab"
-        component={EventsListScreen}
-        options={{ title: t("tabs.events"), tabBarIcon: () => <Text>{tabIcon.EventsTab}</Text> }}
+        name="GrievanceTab"
+        component={GrievanceHomeScreen}
+        options={{ title: t("tabs.grievance"), tabBarIcon: () => <Text>{tabIcon.GrievanceTab}</Text> }}
       />
       <Tab.Screen
         name="GalleryTab"

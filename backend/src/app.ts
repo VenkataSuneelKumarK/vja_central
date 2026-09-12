@@ -25,6 +25,13 @@ import { homeRouter } from "@/modules/home/home.routes";
 import { searchRouter } from "@/modules/search/search.routes";
 import { auditAdminRouter } from "@/modules/audit/audit.routes";
 import { settingsPublicRouter, settingsAdminRouter } from "@/modules/settings/settings.routes";
+import { citizenAuthRouter } from "@/modules/citizenAuth/citizenAuth.routes";
+import { grievancesCitizenRouter } from "@/modules/grievances/grievances.citizen.routes";
+import { grievancesAdminRouter } from "@/modules/grievances/grievances.admin.routes";
+import { grievancesAnalyticsRouter } from "@/modules/grievances/grievances.analytics.routes";
+import { grievanceCategoriesPublicRouter, grievanceCategoriesAdminRouter } from "@/modules/grievances/grievanceCategories.routes";
+import { departmentsAdminRouter, officersAdminRouter, grievanceSlaConfigAdminRouter } from "@/modules/grievances/grievanceReferenceData.routes";
+import { grievanceAttachmentsRouter } from "@/modules/grievances/grievanceAttachments.routes";
 
 export function createApp(): Express {
   const app = express();
@@ -58,6 +65,14 @@ export function createApp(): Express {
   app.use("/api", announcementsPublicRouter);
   app.use("/api", categoriesPublicRouter);
   app.use("/api", settingsPublicRouter);
+  app.use("/api", grievanceCategoriesPublicRouter);
+
+  // --- Citizen API (Praja Samvad — separate JWT scheme from admin) ---
+  app.use("/api/citizen/auth", citizenAuthRouter);
+  // Mounted before the more general grievances router so its fixed path
+  // is never shadowed by that router's own routing.
+  app.use("/api/grievances/attachments", grievanceAttachmentsRouter);
+  app.use("/api/grievances", grievancesCitizenRouter);
 
   // --- Admin API (JWT + RBAC gated, consumed by the admin portal) ---
   app.use("/api/admin/auth", authRouter);
@@ -74,6 +89,17 @@ export function createApp(): Express {
   app.use("/api/admin/media", mediaAdminRouter);
   app.use("/api/admin/audit-log", auditAdminRouter);
   app.use("/api/admin/settings", settingsAdminRouter);
+
+  // Praja Samvad admin routes. The analytics router (fixed paths like
+  // /dashboard, /analytics/category) MUST mount before the general
+  // grievances admin router — that router has a GET "/:id" route that
+  // would otherwise greedily match "/dashboard" as an :id value.
+  app.use("/api/admin/grievances", grievancesAnalyticsRouter);
+  app.use("/api/admin/grievances", grievancesAdminRouter);
+  app.use("/api/admin/grievance-categories", grievanceCategoriesAdminRouter);
+  app.use("/api/admin/grievance-departments", departmentsAdminRouter);
+  app.use("/api/admin/grievance-officers", officersAdminRouter);
+  app.use("/api/admin/grievance-sla-config", grievanceSlaConfigAdminRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
