@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { FlatList, RefreshControl, ActivityIndicator, View } from "react-native";
+import { FlatList, RefreshControl, ActivityIndicator, View, ScrollView } from "react-native";
 import { useContentList, flattenPages } from "@/api/hooks/useContentList";
 import { EmptyState, ErrorState, SkeletonList } from "@/components/States";
 import { spacing } from "@/theme/colors";
@@ -33,7 +33,19 @@ export function InfiniteContentList<T extends { _id: string }>({
 
   if (isLoading) return <SkeletonList />;
   if (isError) return <ErrorState onRetry={() => refetch()} />;
-  if (items.length === 0) return <EmptyState title={emptyLabel} />;
+  if (items.length === 0) {
+    // Still wrapped in a pull-to-refreshable scroll view — an empty filter
+    // (e.g. "Completed" with nothing completed yet) shouldn't leave the
+    // user with no way to pull down and check again.
+    return (
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={() => refetch()} />}
+      >
+        <EmptyState title={emptyLabel} />
+      </ScrollView>
+    );
+  }
 
   return (
     <FlatList
