@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, ScrollView, StyleSheet, Image } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Image, RefreshControl } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "@/navigation/types";
@@ -18,8 +18,8 @@ export function GrievanceDetailScreen() {
   const route = useRoute<RouteProp<RootStackParamList, "GrievanceDetail">>();
   const { id } = route.params;
 
-  const { data: grievance, isLoading, isError, refetch } = useGrievanceDetail(id);
-  const { data: timeline } = useGrievanceTimeline(id);
+  const { data: grievance, isLoading, isError, refetch, isRefetching } = useGrievanceDetail(id);
+  const { data: timeline, refetch: refetchTimeline, isRefetching: isRefetchingTimeline } = useGrievanceTimeline(id);
   const verify = useVerifyGrievance(id);
   const feedback = useSubmitGrievanceFeedback(id);
 
@@ -35,7 +35,21 @@ export function GrievanceDetailScreen() {
   const departmentName = grievance.department && typeof grievance.department === "object" ? tt(grievance.department.name) : null;
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefetching || isRefetchingTimeline}
+          onRefresh={() => {
+            refetch();
+            refetchTimeline();
+          }}
+          colors={[colors.primary]}
+          tintColor={colors.primary}
+        />
+      }
+    >
       <View style={styles.headerRow}>
         <Text style={styles.id}>{grievance.grievanceNumber}</Text>
         <View style={[styles.statusPill, { backgroundColor: statusColor(grievance.status) }]}>
