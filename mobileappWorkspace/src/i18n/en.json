@@ -2,6 +2,7 @@
   "tabs": { "home": "Home", "activities": "Activities", "grievance": "Grievance", "gallery": "Gallery", "more": "More" },
   "home": {
     "title": "Mana Vijayawada",
+    "guest": "Guest",
     "latestActivity": "Latest Activity",
     "upcomingEvents": "Upcoming Events",
     "latestNews": "Latest News",
@@ -16,7 +17,22 @@
   "gallery": { "albums": "Albums", "videos": "Videos", "emptyAlbums": "No albums yet", "emptyVideos": "No videos yet" },
   "announcements": { "title": "Announcements", "empty": "No announcements", "urgent": "Urgent", "important": "Important" },
   "search": { "title": "Search", "placeholder": "Search activities, events, news…", "noResults": "No results found", "filters": "Filters" },
-  "more": { "title": "More", "events": "Events", "news": "News", "announcements": "Announcements", "search": "Search", "settings": "Settings", "about": "About", "privacy": "Privacy Policy", "terms": "Terms of Use", "contact": "Contact / Information" },
+  "more": {
+    "title": "More",
+    "events": "Events",
+    "news": "News",
+    "announcements": "Announcements",
+    "search": "Search",
+    "settings": "Settings",
+    "about": "About",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "contact": "Contact / Information",
+    "logout": "Logout",
+    "logoutConfirmTitle": "Logout",
+    "logoutConfirmMessage": "Are you sure you want to logout?",
+    "logoutCancel": "Cancel"
+  },
   "settings": { "title": "Settings", "language": "Language", "notifications": "Push Notifications", "about": "About" },
   "common": {
     "retry": "Retry",

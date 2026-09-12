@@ -2,6 +2,7 @@
   "tabs": { "home": "హోమ్", "activities": "కార్యక్రమాలు", "grievance": "ఫిర్యాదు", "gallery": "గ్యాలరీ", "more": "మరిన్ని" },
   "home": {
     "title": "మన విజయవాడ",
+    "guest": "అతిథి",
     "latestActivity": "తాజా కార్యక్రమం",
     "upcomingEvents": "రాబోయే ఈవెంట్స్",
     "latestNews": "తాజా వార్తలు",
@@ -16,7 +17,22 @@
   "gallery": { "albums": "ఆల్బమ్‌లు", "videos": "వీడియోలు", "emptyAlbums": "ఇంకా ఆల్బమ్‌లు లేవు", "emptyVideos": "ఇంకా వీడియోలు లేవు" },
   "announcements": { "title": "ప్రకటనలు", "empty": "ప్రకటనలు లేవు", "urgent": "అత్యవసరం", "important": "ముఖ్యమైనది" },
   "search": { "title": "శోధన", "placeholder": "కార్యక్రమాలు, ఈవెంట్స్, వార్తలు వెతకండి…", "noResults": "ఫలితాలు కనబడలేదు", "filters": "ఫిల్టర్లు" },
-  "more": { "title": "మరిన్ని", "events": "ఈవెంట్స్", "news": "వార్తలు", "announcements": "ప్రకటనలు", "search": "శోధన", "settings": "సెట్టింగ్‌లు", "about": "గురించి", "privacy": "గోప్యతా విధానం", "terms": "నిబంధనలు", "contact": "సంప్రదింపు / సమాచారం" },
+  "more": {
+    "title": "మరిన్ని",
+    "events": "ఈవెంట్స్",
+    "news": "వార్తలు",
+    "announcements": "ప్రకటనలు",
+    "search": "శోధన",
+    "settings": "సెట్టింగ్‌లు",
+    "about": "గురించి",
+    "privacy": "గోప్యతా విధానం",
+    "terms": "నిబంధనలు",
+    "contact": "సంప్రదింపు / సమాచారం",
+    "logout": "లాగ్అవుట్",
+    "logoutConfirmTitle": "లాగ్అవుట్",
+    "logoutConfirmMessage": "మీరు లాగ్అవుట్ కావాలనుకుంటున్నారా?",
+    "logoutCancel": "రద్దు చేయండి"
+  },
   "settings": { "title": "సెట్టింగ్‌లు", "language": "భాష", "notifications": "పుష్ నోటిఫికేషన్లు", "about": "గురించి" },
   "common": {
     "retry": "మళ్ళీ ప్రయత్నించండి",

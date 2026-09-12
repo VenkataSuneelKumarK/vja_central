@@ -66,6 +66,92 @@
 └────────────────────────────────────────────────────────────────────┘
 ```
 
+## Grievance domain (Praja Samvad)
+
+Added for the public grievance-tracking module. `Citizen` is a deliberately
+separate collection from `User` (admin/staff) — see `ARCHITECTURE.md` §6.
+`GrievanceActivity` is append-only: every status change, assignment, comment
+and citizen action writes one entry and nothing is ever edited or deleted.
+
+```
+┌────────────────┐        ┌──────────────────────┐
+│     Citizen      │        │      Grievance          │
+├────────────────┤        ├──────────────────────┤
+│ _id               │◀───────┤ citizenId (→Citizen)   │
+│ username          │        │ citizenName/Mobile     │ (point-in-time snapshot)
+│ mobile            │        │ grievanceNumber        │ unique, MV-YYYY-NNNNNN
+│ passwordHash      │        │ year, sequenceNumber   │
+│ isActive          │        │ heading, description    │
+│ pushTopicSubscribed│       │ category (→GrievanceCategory) │
+└────────────────┘        │ subCategory / customCategoryNote │
+                              │ initialPriority (immutable) │
+┌────────────────┐        │ priority + priorityChangeReason │
+│  GrievanceCategory │      │ status                  │
+├────────────────┤        │ area, ward, landmark, geo │
+│ _id               │◀───────┤ attachments[]           │
+│ name_en/te        │        │ department (→Department)│
+│ slug              │        │ assignedOfficer (→Officer)│
+│ isOther           │        │ assignedBy (→User), assignedAt │
+│ subCategories[]   │        │ dueDate, dueDateOverridden │
+│  (name_en/te,slug)│        │ resolutionDescription    │
+│ isActive, sortOrder│       │ resolutionAttachments[]  │
+└────────────────┘        │ citizenFeedback, citizenRating │
+                              │ rejectionReason           │
+┌────────────────┐        │ reopenReason, reopenCount │
+│    Department      │◀───────┤ createdBy (→Citizen)      │
+├────────────────┤        │ updatedBy (→User)          │
+│ _id               │        │ resolvedAt/verifiedAt/closedAt │
+│ name_en/te        │        └──────────┬───────────────┘
+│ isActive          │                   │
+└───────┬────────┘                   ▼
+        │ employs           ┌──────────────────────┐
+        ▼                   │   GrievanceActivity     │
+┌────────────────┐        ├──────────────────────┤
+│     Officer        │◀───────┤ grievanceId (→Grievance)│
+├────────────────┤        │ action                   │
+│ _id               │        │ actorType (citizen/admin/│
+│ name              │        │            system)      │
+│ mobile            │        │ actorId, actorName        │
+│ department (→Dept) │       │ message                  │
+│ isActive          │        │ isPublic                 │
+└────────────────┘        │ metadata (mixed)          │
+                              │ createdAt (no updatedAt)  │
+┌────────────────┐        └──────────────────────┘
+│ GrievanceSlaConfig │  singleton, _id: "grievance_sla_config"
+├────────────────┤  { emergencyHours, highHours, normalHours, suggestionHours }
+└────────────────┘
+
+┌────────────────┐
+│     Counter        │  generic atomic sequence, _id: "grievance_<year>", { seq }
+└────────────────┘
+```
+
+### Notes (grievance domain)
+
+- **`initialPriority` vs `priority`**: the citizen's submitted priority is
+  never mutated; `priority` is the current/effective one, changeable only
+  with a recorded `priorityChangeReason` — this is what lets "how often do
+  citizens over-report severity" stay answerable later.
+- **Snapshot fields**: `citizenName`/`citizenMobile` on `Grievance` and
+  `assignedOfficerName` are point-in-time copies (not live joins), so a
+  grievance still displays correctly even if the citizen's profile or the
+  officer's name changes later — same pattern as `AuditLog.actorEmail`.
+- **Two logs, two audiences**: `GrievanceActivity` (citizen-visible history,
+  filtered by `isPublic`) is a separate collection from `AuditLog`
+  (staff-only audit trail) — not one log filtered two ways.
+- **Indexes** (full list in `DB_SCHEMA.md`):
+  - `Grievance`: unique on `grievanceNumber`; `{status,createdAt}`,
+    `{priority,status}`, `{citizenId,status}`, `{createdAt}`, `{category}`,
+    `{ward}`, `{department}`, `{assignedOfficer}`, `{dueDate}`; text index on
+    heading/description/citizenName/grievanceNumber
+  - `GrievanceActivity`: `{grievanceId, createdAt}`
+  - `Citizen`: unique on `username`, unique on `mobile`
+  - `GrievanceCategory`: unique on `slug`
+  - `Officer`: `{department}`
+- **Status enum** (Grievance): `open | assigned | in_progress | resolved |
+  verified | reopened | closed | rejected`.
+- **Priority enum**: `emergency | high | normal | suggestion`.
+
 ## Notes
 
 - **Bilingual fields**: every citizen-facing text field is stored as a pair

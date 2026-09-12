@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useHome } from "@/api/hooks/useHome";
 import { useAppSettings } from "@/api/hooks/useMisc";
+import { useCitizenAuth } from "@/hooks/useCitizenAuth";
 import { HomeMediaCard } from "@/components/HomeMediaCard";
 import { AnnouncementBanner } from "@/components/AnnouncementBanner";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -26,6 +27,7 @@ export function HomeScreen() {
   const navigation = useNavigation<Nav>();
   const { data, isLoading, isError, refetch, isRefetching } = useHome();
   const { data: settings } = useAppSettings();
+  const { citizen, isAuthenticated } = useCitizenAuth();
 
   if (isLoading) return <SkeletonList />;
   if (isError || !data) return <ErrorState onRetry={() => refetch()} />;
@@ -37,8 +39,13 @@ export function HomeScreen() {
       refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={() => refetch()} />}
     >
       <View style={styles.header}>
-        {settings?.profileImageUrl && <Image source={{ uri: settings.profileImageUrl }} style={styles.avatar} />}
-        <Text style={styles.headerTitle}>{t("home.title")}</Text>
+        <View style={styles.headerLeft}>
+          {settings?.profileImageUrl && <Image source={{ uri: settings.profileImageUrl }} style={styles.avatar} />}
+          <Text style={styles.headerTitle}>{t("home.title")}</Text>
+        </View>
+        <Text style={styles.headerUser} numberOfLines={1}>
+          {isAuthenticated ? citizen?.fullName || citizen?.username : t("home.guest")}
+        </Text>
       </View>
 
       {data.activeAnnouncements.length > 0 && (
@@ -149,7 +156,9 @@ function Section({ title, onSeeAll, children }: { title: string; onSeeAll: () =>
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   content: { padding: spacing.lg, paddingBottom: spacing.xxl },
-  header: { flexDirection: "row", alignItems: "center", gap: spacing.sm, marginBottom: spacing.lg },
+  header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.sm, marginBottom: spacing.lg },
+  headerLeft: { flexDirection: "row", alignItems: "center", gap: spacing.sm, flexShrink: 1 },
   avatar: { width: 36, height: 36, borderRadius: 18 },
   headerTitle: { fontSize: 20, fontWeight: "700", color: colors.text },
+  headerUser: { fontSize: 13, fontWeight: "600", color: colors.primary, maxWidth: 110 },
 });

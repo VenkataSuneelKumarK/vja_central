@@ -7,6 +7,11 @@
 /activities                list (filter: status/category/date)
 /activities/new            create
 /activities/:id            edit + preview + publish/schedule/archive
+/grievances                Praja Samvad — KPI strip + filterable list (status/priority/
+                           category/sub-category/ward/area/department/officer/date/search)
+/grievances/:id            detail — citizen info, attachments, timeline, and (content_admin+)
+                           assignment, priority override, status/resolve/reject, comments
+/grievances/settings       super_admin only — departments, officers, per-priority SLA hours
 /events                    list
 /events/new | /events/:id
 /news                      list
@@ -33,6 +38,9 @@ Sidebar visibility and every write action are gated by role:
 | Publish/unpublish/archive | ✅ | ✅ | ❌ | ❌ |
 | Delete content | ✅ | ✅ | ❌ | ❌ |
 | Send notifications | ✅ | ✅ | ❌ | ❌ |
+| View grievances | ✅ | ✅ | ✅ | ✅ |
+| Assign / change priority-status / resolve / reject a grievance | ✅ | ✅ | ❌ | ❌ |
+| Manage departments / officers / SLA config | ✅ | ❌ | ❌ | ❌ |
 | Manage users | ✅ | ❌ | ❌ | ❌ |
 | Audit log | ✅ | ❌ | ❌ | ❌ |
 

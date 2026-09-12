@@ -19,9 +19,15 @@ needed.
       graphic (1024×500), at least 2 phone screenshots, app icon (512×512)
 - [ ] Privacy Policy URL (point at the admin-portal-served
       `/privacy-policy` page — content comes from `AppSettings.privacyPolicyUrl`)
-- [ ] Data Safety form: declare what's collected (this app collects no
-      personal data by default per §14/§22 of the brief — update if OTP
-      auth or analytics are added later)
+- [ ] Data Safety form: with the Praja Samvad grievance module, the app now
+      **does** collect personal data — citizen account username, mobile
+      number, optional full name, plus whatever a citizen includes in a
+      grievance heading/description/location/photos. Declare: mobile number
+      (account creation, not shared with third parties, user can request
+      deletion), name (optional, account creation), and photos (grievance
+      attachments, user-submitted). Passwords are hashed and never
+      transmitted or stored in plaintext. This replaces the earlier
+      no-personal-data assumption from before this module existed.
 - [ ] Content rating questionnaire (civic/informational content —
       typically rates "Everyone")
 - [ ] Target API level meets Play's current minimum (re-check at build
@@ -37,7 +43,8 @@ needed.
 - [ ] Screenshots for at least one required device size per Apple's current
       requirement (iPhone + iPad, since `supportsTablet: true`)
 - [ ] App Privacy "nutrition label" — declare data collection practices
-      (none by default, matching the Android Data Safety answer above)
+      (mobile number, optional name, and user-submitted grievance photos —
+      matching the Android Data Safety answer above)
 - [ ] Privacy Policy URL (same as Android)
 - [ ] TestFlight internal build for review before public submission
 
