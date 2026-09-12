@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
 import { Pagination } from "@/components/ui/Pagination";
 import { SkeletonRows, EmptyState, ErrorState } from "@/components/ui/States";
 import { FloatingInput, FloatingSelect } from "@/components/ui/FloatingField";
@@ -10,8 +12,11 @@ import {
   useGrievanceCategoriesAdmin,
   useDepartments,
   useOfficers,
+  fetchGrievancesForExport,
 } from "@/api/grievances";
+import { apiErrorMessage } from "@/api/client";
 import { GrievancePriorityBadge, GrievanceStatusBadge, SlaBadge } from "./GrievanceBadges";
+import { generateGrievancePdf } from "./generateGrievancePdf";
 import { GrievanceCategoryRef, GrievanceStatus } from "@/types/grievance";
 
 const STATUS_OPTIONS: GrievanceStatus[] = ["open", "assigned", "in_progress", "resolved", "verified", "reopened", "closed", "rejected"];
@@ -47,6 +52,7 @@ const EMPTY_FILTERS: Filters = {
 export function GrievancesListPage() {
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS);
   const [page, setPage] = useState(1);
+  const [exporting, setExporting] = useState<"flat" | "category" | null>(null);
 
   const { data: categories } = useGrievanceCategoriesAdmin();
   const { data: departments } = useDepartments();
@@ -64,11 +70,58 @@ export function GrievancesListPage() {
     setPage(1);
   }
 
+  // Builds a human-readable summary of the currently active filters for the
+  // printed document's header, so a printout on its own still says what
+  // scope of grievances it covers (rather than just "here are some rows").
+  function buildFilterSummary(): string {
+    const parts: string[] = [];
+    if (filters.status) parts.push(`Status: ${filters.status.replace(/_/g, " ")}`);
+    if (filters.priority) parts.push(`Priority: ${filters.priority}`);
+    if (selectedCategory) parts.push(`Category: ${selectedCategory.name.en}`);
+    if (filters.subCategory) parts.push(`Sub-category: ${filters.subCategory}`);
+    if (filters.department) parts.push(`Department: ${departments?.find((d) => d._id === filters.department)?.name.en ?? filters.department}`);
+    if (filters.assignedOfficer) parts.push(`Officer: ${officers?.find((o) => o._id === filters.assignedOfficer)?.name ?? filters.assignedOfficer}`);
+    if (filters.ward) parts.push(`Ward: ${filters.ward}`);
+    if (filters.area) parts.push(`Area: ${filters.area}`);
+    if (filters.from) parts.push(`From: ${filters.from}`);
+    if (filters.to) parts.push(`To: ${filters.to}`);
+    if (filters.q) parts.push(`Search: "${filters.q}"`);
+    return parts.length ? parts.join(" · ") : "None (showing all grievances)";
+  }
+
+  // Generates a real PDF client-side and triggers a direct file download —
+  // deliberately not window.print(): that opens the OS print dialog, whose
+  // save-location is entirely browser/OS-controlled and can't be scripted
+  // from a web app. A direct download instead lands straight in the
+  // browser's default Downloads folder with no dialog at all (under
+  // default browser settings).
+  async function handleExport(mode: "flat" | "category") {
+    setExporting(mode);
+    try {
+      const items = await fetchGrievancesForExport(apiParams);
+      await generateGrievancePdf(items, mode, buildFilterSummary());
+    } catch (err) {
+      toast.error(apiErrorMessage(err));
+    } finally {
+      setExporting(null);
+    }
+  }
+
   return (
     <div className="space-y-5">
-      <div>
-        <h1 className="text-xl font-semibold text-slate-900">Grievances</h1>
-        <p className="text-sm text-slate-400">Praja Samvad — public grievance tracking and resolution.</p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-xl font-semibold text-slate-900">Grievances</h1>
+          <p className="text-sm text-slate-400">Praja Samvad — public grievance tracking and resolution.</p>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="secondary" disabled={exporting !== null} onClick={() => void handleExport("flat")}>
+            {exporting === "flat" ? "Preparing…" : "Export PDF"}
+          </Button>
+          <Button variant="secondary" disabled={exporting !== null} onClick={() => void handleExport("category")}>
+            {exporting === "category" ? "Preparing…" : "Export by Category"}
+          </Button>
+        </div>
       </div>
 
       {dashboard && (

@@ -11,7 +11,7 @@ const statusStyles: Record<GrievanceStatus, string> = {
   rejected: "bg-red-100 text-red-700 ring-1 ring-red-200",
 };
 
-const statusLabels: Record<GrievanceStatus, string> = {
+export const statusLabels: Record<GrievanceStatus, string> = {
   open: "Open",
   assigned: "Assigned",
   in_progress: "In Progress",
@@ -33,7 +33,7 @@ const priorityEmoji: Record<GrievancePriority, string> = {
   suggestion: "🟢",
 };
 
-const priorityLabels: Record<GrievancePriority, string> = {
+export const priorityLabels: Record<GrievancePriority, string> = {
   emergency: "Emergency",
   high: "High",
   normal: "Normal",

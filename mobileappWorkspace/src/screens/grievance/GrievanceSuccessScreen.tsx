@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useNavigation, useRoute, RouteProp, CommonActions } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -8,6 +9,7 @@ import { colors, spacing, radius } from "@/theme/colors";
 
 export function GrievanceSuccessScreen() {
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, "GrievanceSuccess">>();
   const { grievanceNumber, grievanceId } = route.params;
@@ -22,7 +24,7 @@ export function GrievanceSuccessScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.card}>
         <Text style={styles.check}>✓</Text>
         <Text style={styles.title}>{t("grievance.success.title")}</Text>

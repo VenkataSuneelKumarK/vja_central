@@ -1,5 +1,6 @@
 import { Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { HomeScreen } from "@/screens/home/HomeScreen";
 import { ActivitiesListScreen } from "@/screens/activities/ActivitiesListScreen";
@@ -24,9 +25,17 @@ const tabIcon: Record<keyof MainTabParamList, string> = {
 
 export function MainTabs() {
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
 
   return (
     <Tab.Navigator
+      // headerShown:false means React Navigation's native header (which
+      // normally accounts for the status bar itself) never mounts here, so
+      // every tab screen would otherwise render its content starting at
+      // y:0, under the status bar. sceneContainerStyle applies to all five
+      // tabs (plus MyGrievancesScreen, nested inside GrievanceTab) in one
+      // place rather than needing each screen to handle it individually.
+      sceneContainerStyle={{ paddingTop: insets.top, backgroundColor: colors.background }}
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors.primary,

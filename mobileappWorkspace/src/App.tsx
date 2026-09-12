@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
@@ -52,16 +53,18 @@ export default function App() {
   }
 
   return (
-    <PersistQueryClientProvider client={queryClient} persistOptions={{ persister: asyncStoragePersister }}>
-      <StatusBar style="dark" />
-      {needsOnboarding ? (
-        <OnboardingLanguageScreen onDone={() => setNeedsOnboarding(false)} />
-      ) : (
-        <NavigationContainer>
-          <OfflineBanner />
-          <RootNavigator />
-        </NavigationContainer>
-      )}
-    </PersistQueryClientProvider>
+    <SafeAreaProvider>
+      <PersistQueryClientProvider client={queryClient} persistOptions={{ persister: asyncStoragePersister }}>
+        <StatusBar style="dark" />
+        {needsOnboarding ? (
+          <OnboardingLanguageScreen onDone={() => setNeedsOnboarding(false)} />
+        ) : (
+          <NavigationContainer>
+            <OfflineBanner />
+            <RootNavigator />
+          </NavigationContainer>
+        )}
+      </PersistQueryClientProvider>
+    </SafeAreaProvider>
   );
 }
