@@ -31,6 +31,9 @@ const envSchema = z.object({
   CDN_URL: z.string().optional(),
 
   MAX_UPLOAD_MB: z.coerce.number().default(15),
+  // Videos are far larger than images — a separate, much higher ceiling
+  // rather than overloading MAX_UPLOAD_MB (which also governs image size).
+  MAX_VIDEO_UPLOAD_MB: z.coerce.number().default(200),
 
   FIREBASE_PROJECT_ID: z.string().optional(),
   FIREBASE_CLIENT_EMAIL: z.string().optional(),

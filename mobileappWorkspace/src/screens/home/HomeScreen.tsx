@@ -7,6 +7,7 @@ import { useHome } from "@/api/hooks/useHome";
 import { useAppSettings } from "@/api/hooks/useMisc";
 import { useCitizenAuth } from "@/hooks/useCitizenAuth";
 import { HomeMediaCard } from "@/components/HomeMediaCard";
+import { HomeVideoCard } from "@/components/HomeVideoCard";
 import { AnnouncementBanner } from "@/components/AnnouncementBanner";
 import { SectionHeader } from "@/components/SectionHeader";
 import { SkeletonList, ErrorState } from "@/components/States";
@@ -135,7 +136,13 @@ export function HomeScreen() {
           contentContainerStyle={{ gap: spacing.md }}
           renderItem={({ item }) => (
             <View style={{ width: CARD_WIDTH }}>
-              <HomeMediaCard image={item.thumbnailUrl} title={tt(item.title)} onPress={() => navigation.navigate("VideoDetail", { id: item._id })} />
+              <HomeVideoCard
+                videoUrl={item.videoUrl}
+                thumbnailUrl={item.thumbnailUrl}
+                source={item.source}
+                title={tt(item.title)}
+                onPress={() => navigation.navigate("VideoDetail", { id: item._id })}
+              />
             </View>
           )}
         />
