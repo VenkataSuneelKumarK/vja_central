@@ -25,6 +25,13 @@ export function useGrievancesList(params: GrievanceListParams) {
   });
 }
 
+// Plain async function rather than a useQuery hook: export is an on-demand
+// action triggered by a button click, not something the page should
+// reactively fetch/cache/refetch on filter changes like the list above.
+export async function fetchGrievancesForExport(params: Omit<GrievanceListParams, "page" | "limit">): Promise<Grievance[]> {
+  return (await api.get<ApiEnvelope<Grievance[]>>("/admin/grievances/export", { params })).data.data;
+}
+
 // Dashboard numbers must always reflect the same filters as the list
 // they sit above (§30/§56 of the spec) — same params shape, different path.
 export function useGrievanceDashboard(params: Omit<GrievanceListParams, "page" | "limit" | "q" | "status">) {

@@ -75,6 +75,26 @@ router.get(
   })
 );
 
+// Registered before "/:id" — otherwise Express would match "export" as an
+// :id param instead of this route. Unlike the paginated list endpoint
+// (capped at 100/page via getPageParams), a print/PDF export needs every
+// matching record in one response so the document isn't silently missing
+// rows past page 1; capped at 5000 as a sanity ceiling rather than left
+// unbounded.
+router.get(
+  "/export",
+  asyncHandler(async (req, res) => {
+    const filter = buildAdminFilter(req);
+    const items = await Grievance.find(filter)
+      .populate("category", "name slug")
+      .populate("department", "name")
+      .populate("assignedOfficer", "name")
+      .sort({ createdAt: -1 })
+      .limit(5000);
+    ok(res, withSlaStateList(items));
+  })
+);
+
 router.get(
   "/:id",
   asyncHandler(async (req, res) => {
