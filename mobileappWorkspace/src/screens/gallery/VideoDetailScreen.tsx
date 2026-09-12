@@ -32,15 +32,16 @@ export function VideoDetailScreen() {
   // since an HTML5 video element can't play a youtube.com/youtu.be page.
   const fallbackYouTubeId = data.source === "hosted" ? extractYouTubeId(data.videoUrl) : null;
   const youtubeId = data.source === "youtube" ? data.youtubeId : fallbackYouTubeId;
-  const youtubeWatchUrl = youtubeId ? `https://www.youtube.com/watch?v=${youtubeId}` : data.videoUrl;
+  const youtubeWatchUrl = youtubeId ? `https://www.youtube.com/watch?v=${youtubeId}` : null;
 
   // playsinline keeps it embedded rather than jumping to a native player;
   // autoplay+mute is the one combination every mobile WebView reliably
-  // allows without a prior user gesture (unmuted autoplay is blocked).
+  // allows without a prior user gesture (unmuted autoplay is blocked, and
+  // silently eats the tap needed to start playback via controls afterward).
   const source = youtubeId
     ? { uri: `https://www.youtube.com/embed/${youtubeId}?playsinline=1&autoplay=1&mute=1&rel=0&modestbranding=1` }
     : {
-        html: `<html><body style="margin:0;background:#000"><video src="${data.videoUrl}" controls autoplay playsinline style="width:100%;height:100%"></video></body></html>`,
+        html: `<html><body style="margin:0;background:#000"><video src="${data.videoUrl}" controls autoplay muted playsinline style="width:100%;height:100%"></video></body></html>`,
       };
 
   return (

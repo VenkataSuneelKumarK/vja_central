@@ -5,8 +5,10 @@ import { requireAuth } from "@/middleware/auth";
 import { requireRole } from "@/middleware/rbac";
 import { WRITE_ROLES } from "@/common/constants";
 import { createImageUploadMulter, processAndUploadImage } from "@/common/imageUpload";
+import { createVideoUploadMulter, processAndUploadVideo } from "@/common/videoUpload";
 
 const upload = createImageUploadMulter({ maxFiles: 20 });
+const videoUpload = createVideoUploadMulter();
 
 const router = Router();
 router.use(requireAuth, requireRole(WRITE_ROLES));
@@ -20,6 +22,18 @@ router.post(
 
     const results = await Promise.all(files.map((f) => processAndUploadImage(f.buffer, f.originalname)));
     ok(res, results, 201);
+  })
+);
+
+router.post(
+  "/upload-video",
+  videoUpload.single("file"),
+  asyncHandler(async (req, res) => {
+    const file = req.file;
+    if (!file) throw ApiError.badRequest("No video file uploaded");
+
+    const result = await processAndUploadVideo(file.path, file.originalname, file.mimetype);
+    ok(res, result, 201);
   })
 );
 
