@@ -45,7 +45,7 @@ export function HomeScreen() {
           <Text style={styles.headerTitle}>{t("home.title")}</Text>
         </View>
         <Text style={styles.headerUser} numberOfLines={1}>
-          {isAuthenticated ? citizen?.fullName || citizen?.username : t("home.guest")}
+          {isAuthenticated ? `${t("home.greeting")}, ${citizen?.fullName || citizen?.username}` : t("home.guest")}
         </Text>
       </View>
 
@@ -166,6 +166,11 @@ const styles = StyleSheet.create({
   header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.sm, marginBottom: spacing.lg },
   headerLeft: { flexDirection: "row", alignItems: "center", gap: spacing.sm, flexShrink: 1 },
   avatar: { width: 36, height: 36, borderRadius: 18 },
-  headerTitle: { fontSize: 20, fontWeight: "700", color: colors.text },
-  headerUser: { fontSize: 13, fontWeight: "600", color: colors.primary, maxWidth: 110 },
+  // The app name is the brand element and should read as the clear anchor
+  // of this row; the citizen's name is secondary context, so it's kept in
+  // a muted, unbolded tone deliberately not colors.primary — that's the
+  // app's link/CTA color, and using it here made a plain name look like a
+  // tappable action competing with the title for attention.
+  headerTitle: { fontSize: 22, fontWeight: "800", color: colors.text, letterSpacing: 0.2 },
+  headerUser: { fontSize: 12, fontWeight: "500", color: colors.textMuted, maxWidth: 130 },
 });

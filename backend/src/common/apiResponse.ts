@@ -1,7 +1,23 @@
 import { Response } from "express";
+import { env } from "@/config/env";
+import { signMediaUrlsDeep } from "@/config/s3";
 
+// Every route in the app sends its response through ok()/paginated() — that
+// makes this the one place to sign outgoing media URLs (when AWS_S3_PRIVATE
+// is on) instead of touching every individual route that happens to return
+// a coverImage/thumbnailUrl/videoUrl/attachments[].url field. Callers keep
+// calling these exactly as before (no `await`, same signature) — the
+// signing work happens on a promise chain that resolves to res.json()
+// whenever it's ready, same pattern Express already tolerates for any
+// async work started inside a request handler.
 export function ok<T>(res: Response, data: T, status = 200) {
-  return res.status(status).json({ success: true, data });
+  if (!env.AWS_S3_PRIVATE) return res.status(status).json({ success: true, data });
+
+  const plain = JSON.parse(JSON.stringify(data));
+  signMediaUrlsDeep(plain)
+    .then((signed) => res.status(status).json({ success: true, data: signed }))
+    .catch(() => res.status(status).json({ success: true, data: plain }));
+  return res;
 }
 
 export function paginated<T>(
@@ -11,16 +27,14 @@ export function paginated<T>(
   limit: number,
   total: number
 ) {
-  return res.status(200).json({
-    success: true,
-    data: {
-      items,
-      page,
-      limit,
-      total,
-      hasMore: page * limit < total,
-    },
-  });
+  const body = { items, page, limit, total, hasMore: page * limit < total };
+  if (!env.AWS_S3_PRIVATE) return res.status(200).json({ success: true, data: body });
+
+  const plain = JSON.parse(JSON.stringify(body));
+  signMediaUrlsDeep(plain)
+    .then((signed) => res.status(200).json({ success: true, data: signed }))
+    .catch(() => res.status(200).json({ success: true, data: plain }));
+  return res;
 }
 
 export class ApiError extends Error {

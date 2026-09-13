@@ -29,6 +29,13 @@ const envSchema = z.object({
   AWS_SECRET_ACCESS_KEY: z.string().optional(),
   AWS_S3_FORCE_PATH_STYLE: z.coerce.boolean().default(false),
   CDN_URL: z.string().optional(),
+  // When true, the S3 bucket is assumed to be fully private (no public
+  // bucket policy) — every media URL in every API response gets replaced
+  // with a temporary, signed link instead of the permanent public one
+  // built by publicUrlFor(). Defaults to false so existing local/MinIO
+  // setups (public bucket) keep working unchanged unless opted in.
+  AWS_S3_PRIVATE: z.coerce.boolean().default(false),
+  S3_SIGNED_URL_EXPIRES_SECONDS: z.coerce.number().default(86_400),
 
   MAX_UPLOAD_MB: z.coerce.number().default(15),
   // Videos are far larger than images — a separate, much higher ceiling
