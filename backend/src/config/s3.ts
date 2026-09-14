@@ -32,7 +32,12 @@ const MEDIA_URL_PREFIX = env.CDN_URL ? `${env.CDN_URL.replace(/\/$/, "")}/` : nu
 // when AWS_S3_PRIVATE is off, so public/local setups pay zero cost for this.
 export async function signMediaUrl(value: string): Promise<string> {
   if (!env.AWS_S3_PRIVATE || !MEDIA_URL_PREFIX || !value.startsWith(MEDIA_URL_PREFIX)) return value;
-  const key = value.slice(MEDIA_URL_PREFIX.length);
+  // Strip any query string before deriving the key so a value that was
+  // already signed once (e.g. a signed upload-preview URL a client
+  // mistakenly persisted as if it were the permanent URL) still resolves
+  // to the real object key instead of being treated as a literal key that
+  // happens to contain "?X-Amz-...".
+  const key = value.slice(MEDIA_URL_PREFIX.length).split("?")[0];
   try {
     return await s3.getSignedUrlPromise("getObject", {
       Bucket: MEDIA_BUCKET,
